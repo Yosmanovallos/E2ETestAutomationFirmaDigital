@@ -93,10 +93,7 @@ async function obtenerDetalleDelContrato(contractId, token) {
         await loginpage.goto();
         await loginpage.checkComponents(); // Esperar que se complete este método
         // Realizar el login utilizando los datos del ambiente correcto.
-        await loginpage.loginUser(); // Los datos se manejan internamente en la clase
-        await page.waitForSelector('div:has-text("¡Mejora tu experiencia de")', { state: 'visible' });
-    //    const { emailAddress: pagadorEmail, id: pagadorId } = 
-        
+        await loginpage.loginUser(); // Los datos se manejan internamente en la clase   
         const { id: pagadorId } = await tramitesexpress.Agregarparticipantepagador();
         await tramitesexpress.Agregarparticipantefirmante();
         await tramitesexpress.AgregarparticipanteCopia();
@@ -129,114 +126,32 @@ async function obtenerDetalleDelContrato(contractId, token) {
     }
 
     throw new Error('Test failed: No se encontró el enlace de pago en el correo.');
-        
+    
+            
     });
 
-});
-        // globalVars.paymentLink = paymentLink; // Guardar el enlace en la variable global
-        
-        // const newPage = await page.context().newPage();
-        // await newPage.goto(globalVars.paymentLink);
 
-    //     console.log(`Accediendo al enlace de pago: ${paymentLink}`);
-    //     await page.goto(paymentLink, { waitUntil: 'networkidle', timeout: 60000 });
-
-    // // Esperar a que el botón 'Crédito' sea visible y proceder con la interacción
-    //     console.log('Esperando el botón de crédito...');
-    //     await page.waitForSelector('#credito', { state: 'visible' });
-        //    await tramitesexpress.automatizarPagoDeWebpay(paymentLink)
-
-
-
-    // test('Pagar contrato', async ({page}) => {
-    //     const tramitesexpress = new TramitesExpressPage(page);
-        
-        
-    //     await page.goto(globalVars.paymentLink);
-    //     await page.waitForTimeout(10000);
-    // });
-
-
-    test('prueba pago', async ({ page }) => {
+    test('tiempo de espera', async ({ page }) => {
         const loginpage = new LoginPage(page);
         const tramitesexpress = new TramitesExpressPage(page);
 
-        await page.goto('https://dev.firmavirtual.com/api/v2/webpay/cl/express/00111C000031000034EF308129/53966eef-7a88-4f17-82fb-15231a77de6c');
-        await page.waitForTimeout(10000)
-        
-        
-    });
+        await loginpage.goto();
+        await page.waitForTimeout(20000)
+});
 
 
+    test('Verificar Firmante', async ({ page }) => {
+        const loginpage = new LoginPage(page);
+        const tramitesexpress = new TramitesExpressPage(page);
 
+        await loginpage.goto();
+   //     await page.waitForTimeout(20000)
+        await loginpage.checkComponents();
+        await loginpage.loginUser();
+    //    await page.waitForSelector('div:has-text("¡Mejora tu experiencia de")', { state: 'visible' });
+    //    const { emailAddress: pagadorEmail, id: pagadorId } = 
+    const details = await tramitesexpress.VerificarFirmanteStatus();
+});
 
-
-
-
-
-
-    //     test('Pagar contrato', async ({ page }) => {
-    //         const loginpage = new LoginPage(page);
-    //         const tramitesexpress = new TramitesExpressPage(page);
-    //         const loginResponse = await realizarLogin();
-
-    //         await loginpage.goto();
-    //         await loginpage.checkComponents(); // Esperar que se complete este método
-    //         // Realizar el login utilizando los datos del ambiente correcto.
-    //         await loginpage.loginUser(); // Los datos se manejan internamente en la clase
-    //         await page.waitForSelector('div:has-text("¡Mejora tu experiencia de")', { state: 'visible' });
-    //         await tramitesexpress.OpenGestiondeDocumentos();
-    //         // Esperar a que el primer botón que coincida con el selector sea visible
-    //         await page.waitForSelector('.MuiButtonBase-root.MuiIconButton-root.MuiIconButton-sizeSmall.css-1j7qk7u', { state: 'visible' });
-
-    //         // Hacer clic en el primer botón de la lista de elementos que coinciden con el selector
-    //         await page.locator('.MuiButtonBase-root.MuiIconButton-root.MuiIconButton-sizeSmall.css-1j7qk7u').first().click();
-
-    // // Solo llama a realizarLogin una vez para obtener el token Bearer
-    // const bearerToken = await realizarLogin();
-    // if (!bearerToken) {
-    //     console.log('Login fallido, token Bearer no recibido.');
-    //     return;
-    // }
-    // console.log('Login exitoso, token Bearer recibido.');
-    //         // Extrae el ID del contrato
-    // const contractId = await extraerIdDelContrato(page);
-    // if (!contractId) {
-    //     console.log("No se pudo extraer el ID del contrato.");
-    //     return;
-    // }
-    // console.log(`ID del contrato extraído: ${contractId}`);
-
-    // // Usa el token Bearer obtenido y el ID del contrato para obtener detalles
-    // const detallesDelContrato = await obtenerDetalleDelContrato(contractId, bearerToken);
-    // if (detallesDelContrato && detallesDelContrato.message && detallesDelContrato.message.firmantes) {
-    //     console.log('Detalles del contrato:', JSON.stringify(detallesDelContrato, null, 2));
-
-    //     let paymentLink;
-
-    //     detallesDelContrato.message.firmantes.forEach(firmante => {
-    //         if (parseFloat(firmante.portion) > 0 && firmante.token_payment) {
-    //             console.log(`Validación exitosa para el rol: ${firmante.full_name}`);
-    //             if (firmante.full_name === "Pagador Automatizado") {
-    //                 const paymentLink = `https://dev.firmavirtual.com/api/v2/webpay/cl/express/${firmante.token_payment}/${contractId}`;
-    //                 console.log(`Enlace de pago para ${firmante.full_name}: ${paymentLink}`);
-    //             }
-    //         } else {
-    //             console.error(`Falla en la validación para el rol: ${firmante.full_name}, Portion: ${firmante.portion}, Token Payment: ${firmante.token_payment}`);
-    //         }
-    //     });
-
-    // } else {
-    //     console.log('Error al obtener detalles del contrato o no hay firmantes disponibles.');
-    // }
-    // });
-    
- //   if (contractId) {
-  //      console.log(`Utilizando el ID del contrato: ${contractId}`);
-        // Continúa con las operaciones que necesitas realizar con el ID del contrato
- //   } else {
-  //      console.log("El ID del contrato no pudo ser obtenido.");
-//    }
-
-
+});
 

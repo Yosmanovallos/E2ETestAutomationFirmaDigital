@@ -200,15 +200,15 @@ exports.TramitesExpressPage = class TramitesExpressPage {
 
     async OpenTramiteExpress() {
 
-        await this.closebuttonhome.click();
+    //    await this.closebuttonhome.click();
         await this.tramitesexpress.click();
     }
 
     async OpenGestiondeDocumentos() {
 
     //    await this.closebuttonhome.click();
-        await this.tramitesexpress.click();
-        await this.tramitesexpress.click();
+    //    await this.tramitesexpress.click();
+    //    await this.tramitesexpress.click();
         await this.gestiondedocumentos.click();
     }
 
@@ -252,7 +252,7 @@ exports.TramitesExpressPage = class TramitesExpressPage {
     async Agregarparticipantefirmante() {
 
         const { emailAddress, id } = await mailslurp.createInbox();
-        console.log(`Correo generado: ${emailAddress}`);  // Muestra el correo generado
+        console.log(`Correo generado: ${emailAddress}, ID del buzón: ${id}`);
         await this.agregarparticipantebutton.click();
         await this.nombrecompletoplaceholder.click();
         await this.nombrecompletoplaceholder.fill('Firmante Automatizado');
@@ -276,6 +276,8 @@ exports.TramitesExpressPage = class TramitesExpressPage {
         await this.agregarparticipantebutton.click();
         await this.agregarparticipantebutton.click();
         await this.page.waitForTimeout(2000)
+
+        return { emailAddress, id };
 
     }
 
@@ -375,25 +377,67 @@ exports.TramitesExpressPage = class TramitesExpressPage {
         } else {
             console.log('Error al obtener detalles del contrato o no hay firmantes disponibles.');
         }
-    
-
-        // Abre la URL y espera el redireccionamiento
-        // await this.page.goto(paymentLink);
-        // await this.page.waitForURL('https://webpay3gint.transbank.cl/webpayserver/init_transaction.cgi', { timeout: 60000 });
-        // await this.page.waitForURL('https://webpay3gint.transbank.cl/webpayserver/dist/index.html', { timeout: 60000 });
-        // await this.page.waitForURL('https://webpay3gint.transbank.cl/webpayserver/dist/#/', { timeout: 60000 });
-        // console.log('Redireccionado a la URL final con éxito.');
-
-
-        // if (pagadorId && paymentLink) {
-        //     await this.verificarCorreoConPago(pagadorId, paymentLink);
-        // } else {
-        //     console.error("No se proporcionó un ID de buzón válido o el enlace de pago no está definido.");
-        // }
-
         return {paymentLink};
-
     }
+
+
+
+
+    async VerificarFirmanteStatus() {
+        await this.OpenTramiteExpress();
+        await this.OpenGestiondeDocumentos();
+        // Esperar a que el primer botón que coincida con el selector sea visible
+        await this.page.waitForSelector('.MuiButtonBase-root.MuiIconButton-root.MuiIconButton-sizeSmall.css-1j7qk7u', { state: 'visible' });
+    
+        // Hacer clic en el primer botón de la lista de elementos que coinciden con el selector
+        await this.page.locator('.MuiButtonBase-root.MuiIconButton-root.MuiIconButton-sizeSmall.css-1j7qk7u').first().click();
+    
+        // Solo llama a realizarLogin una vez para obtener el token Bearer
+        const bearerToken = await this.realizarLogin();
+        if (!bearerToken) {
+            console.log('Login fallido, token Bearer no recibido.');
+            return;
+        }
+        console.log('Login exitoso, token Bearer recibido.');
+        
+        // Extrae el ID del contrato
+        const contractId = await this.extraerIdDelContrato(this.page);
+        if (!contractId) {
+            console.log("No se pudo extraer el ID del contrato.");
+            return;
+        }
+        console.log(`ID del contrato extraído: ${contractId}`);
+    
+        // Usa el token Bearer obtenido y el ID del contrato para obtener detalles
+        const contractDetails = await this.obtenerDetalleDelContrato(contractId, bearerToken);
+        if (contractDetails && contractDetails.message && contractDetails.message.firmantes) {
+            console.log('Detalles del contrato:', JSON.stringify(contractDetails, null, 2));
+            const firmante = contractDetails.message.firmantes.find(f => f.payment === "PAYOUT");
+            if (firmante) {
+                console.log('Pago verificado correctamente como PAYOUT.');
+                return firmante;
+            } else {
+                console.error('Test failed: El estado de pago no es PAYOUT.');
+                return null;
+            }
+        } else {
+            console.error("No se encontraron firmantes o no se pudieron obtener los detalles.");
+            return null;
+        }
+    }
+
+    async checkEmailForAutoId(inboxId, autoId) {
+        const emails = await this.mailslurp.getEmails(inboxId, { limit: 1, sort: 'DESC', unreadOnly: false });
+        if (emails.length > 0) {
+            const latestEmail = emails[0];
+            return latestEmail.body.includes(autoId);
+        }
+        return false;
+    }
+
+
+
+
 
 
     async automatizarPagoDeWebpay(paymentLink) {
@@ -422,16 +466,6 @@ exports.TramitesExpressPage = class TramitesExpressPage {
         console.log('Pago procesado, verificando el estado del pago...');
         // Aquí agregarías cualquier verificación adicional para confirmar que el pago fue exitoso
     }
-
-
-
-
-
-
-
-
-
-
 
 
     async crearTramitesVerify() {
@@ -511,6 +545,46 @@ exports.TramitesExpressPage = class TramitesExpressPage {
         await this.certificaciontext.click();
         await this.agregarparticipantebutton.click();
 
+    }
+
+
+
+
+ async verifymailrecive() {
+
+    // busca un elemento input y lo adjunta
+    await this.page.waitForSelector('input[type="file"]', { state: 'attached' });
+    // Sube el archivo usando el input de archivo real
+    await this.page.setInputFiles('input[type="file"]', 'tests/documents/export.pdf');
+    await this.page.waitForTimeout(3000);
+    
+    await this.page.locator('#pdf_renderer').click({
+        position: {
+          x: 57,
+          y: 553
+        }
+      });   
+    await this.page.check('input.PrivateSwitchBase-input[name="selectedSign"]');
+    await this.page.getByRole('button', { name: 'Agregar' }).click();
+    await this.page.getByRole('button', { name: 'Guardar' }).click();
+    await expect(this.page.locator('div').filter({ hasText: /^Creando Trámite, por favor espere$/ })).toBeVisible();
+//      await tramitesexpress.VerificarContrato(pagadorId);
+    }
+
+
+    async verifymailrecive() {
+
+    if (result && result.paymentLink) {
+        const paymentCheckResult = verificarCorreoConPago(pagadorId, result.paymentLink);
+        if (paymentCheckResult === 'found') {
+            console.log('Test passed: El enlace de pago fue encontrado en el correo.');
+            return; // Termina el test con éxito
+        }
+    }
+    
+    throw new Error('Test failed: No se encontró el enlace de pago en el correo.');
+    
+    
     }
 
 }

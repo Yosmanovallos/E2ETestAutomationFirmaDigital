@@ -37,15 +37,37 @@ module.exports = defineConfig({
 
   /* Configure projects for major browsers */
   projects: [
+
     {
       name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
+      use: { 
+        ...devices['Desktop Chrome'],
+        launchOptions: {
+          args: ['--incognito'], // Lanzar Chrome en modo incógnito
+        },
+        contextOptions: {
+          acceptDownloads: true,
+          viewport: { width: 1280, height: 720 },
+          ignoreHTTPSErrors: true,
+          javaScriptEnabled: true,
+          permissions: ['geolocation'], // Ejemplo de permisos
+          locale: 'en-US',
+          colorScheme: 'light',
+          timezoneId: 'UTC',
+        },
+      },
     },
 
-//    {
-//      name: 'firefox',
-//    use: { ...devices['Desktop Firefox'] },
-//    },
+
+    // {
+    //   name: 'chromium',
+    //   use: { ...devices['Desktop Chrome'] },
+    // },
+
+  //  {
+  //    name: 'firefox',
+  //  use: { ...devices['Desktop Firefox'] },
+  //  },
 
     // {
     //   name: 'webkit',
