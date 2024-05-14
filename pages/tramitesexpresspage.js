@@ -4,6 +4,7 @@ const qaTestData = require('../test-data/qa/qa.json');
 const prodTestData = require('../test-data/prod/prod.json');
 const { MailSlurp } = require('mailslurp-client');
 const axios = require('axios');
+const sqlite3 = require('sqlite3').verbose();
 
 const apiKey = process.env.API_KEY;
 const mailslurp = new MailSlurp({ apiKey });
@@ -17,6 +18,18 @@ exports.TramitesExpressPage = class TramitesExpressPage {
     constructor(page){
         // Init page object
         this.page = page;
+
+        this.initializeDatabase();
+        this.mailslurp = new MailSlurp({ apiKey: process.env.API_KEY });
+
+            // this.sqlitedb = new sqlite3.Database('./prueba.db', (err) => {
+            // if (err) {
+            //     return console.error(err.message);
+            // }
+            // console.log('Connected to the SQlite database.');
+            // });
+
+
         // Elements
         this.closebuttonhome = page.getByRole('dialog').getByTestId('CloseIcon')
         this.tramitesexpress = page.locator('button').filter({ hasText: 'Trámites express' });
@@ -212,6 +225,84 @@ exports.TramitesExpressPage = class TramitesExpressPage {
         await this.gestiondedocumentos.click();
     }
 
+
+    // Abrir una base de datos
+
+    initializeDatabase() {
+        // Utiliza una promesa para manejar la creación de la base de datos y la tabla
+        return new Promise((resolve, reject) => {
+            this.sqlitedb = new sqlite3.Database('./prueba.db', (err) => {
+                if (err) {
+                    console.error(err.message);
+                    reject(err);
+                } else {
+                    console.log('Connected to the SQLite database.');
+                    this.sqlitedb.run('CREATE TABLE IF NOT EXISTS mailbox (id TEXT PRIMARY KEY, email TEXT, idfirmante TEXT)', (err) => {
+                        if (err) {
+                            console.error(err.message);
+                            reject(err);
+                        } else {
+                            console.log('Table is ready or already existed.');
+                            resolve();
+                        }
+                    });
+                }
+            });
+        });
+    }
+
+
+
+async databasecreateverify(emailAddress, id, numfirmante) {   
+
+    // Crear una tabla si no existe
+ //  this.sqlitedb.run('CREATE TABLE IF NOT EXISTS mailbox (id TEXT PRIMARY KEY, email TEXT)');
+
+    // Función para guardar el ID y el email
+        this.sqlitedb.run(`INSERT INTO mailbox(id, email, idfirmante) VALUES(?, ?, ?)`, [numfirmante, emailAddress, id], function(err) {
+            if (err) {
+                return console.log(err.message);
+            }
+            console.log(`A row has been inserted with rowid ${this.lastID}`);
+    })
+};
+
+// async getLastMailboxInfo() {
+//     return new Promise((resolve, reject) => {
+//         this.sqlitedb.get("SELECT email, id FROM mailbox ORDER BY ROWID DESC LIMIT 1", (err, row) => {
+//             if (err) {
+//                 console.error(err.message);
+//                 reject(err);
+//             } else if (row) {
+//                 resolve(row);
+//             } else {
+//                 reject(new Error("No records found."));
+//             }
+//         });
+//     });
+// }
+
+
+    async getMailboxInfobynumfirmante(numfirmante) {
+
+        return new Promise((resolve, reject) => {
+            const query = "SELECT email, idfirmante FROM mailbox WHERE id = ?";
+        
+            this.sqlitedb.get(query, [numfirmante], (err, row) => {
+                if (err) {
+                    console.error(err.message);
+                    reject(err);
+                } else if (row) {
+                    resolve(row);
+                } else {
+                    reject(new Error("No records found."));
+                }
+            });
+        });
+
+    }
+
+
     async Agregarparticipantepagador() {
 
         const { emailAddress, id } = await mailslurp.createInbox();
@@ -252,6 +343,7 @@ exports.TramitesExpressPage = class TramitesExpressPage {
     async Agregarparticipantefirmante() {
 
         const { emailAddress, id } = await mailslurp.createInbox();
+
         console.log(`Correo generado: ${emailAddress}, ID del buzón: ${id}`);
         await this.agregarparticipantebutton.click();
         await this.nombrecompletoplaceholder.click();
@@ -276,9 +368,9 @@ exports.TramitesExpressPage = class TramitesExpressPage {
         await this.agregarparticipantebutton.click();
         await this.agregarparticipantebutton.click();
         await this.page.waitForTimeout(2000)
-
+        await this.databasecreateverify(emailAddress, id, 1);
+     //   await this.databasecreateverify(emailAddress, id);
         return { emailAddress, id };
-
     }
 
     async AgregarparticipanteCopia() {
@@ -435,11 +527,6 @@ exports.TramitesExpressPage = class TramitesExpressPage {
         return false;
     }
 
-
-
-
-
-
     async automatizarPagoDeWebpay(paymentLink) {
         console.log(`Accediendo al enlace de pago: ${paymentLink}`);
         await page1.goto(paymentLink);
@@ -585,6 +672,16 @@ exports.TramitesExpressPage = class TramitesExpressPage {
     throw new Error('Test failed: No se encontró el enlace de pago en el correo.');
     
     
+    }
+
+    async verificarCorreoConAutoId(inboxId, autoId) {
+        const emails = await this.mailslurp.getEmails(inboxId, { limit: 50, sort: 'DESC', unreadOnly: false });
+        for (let email of emails) {
+            if (email.body.includes(autoId)) {
+                return true; // Retorna verdadero tan pronto como encuentre el autoId en algún correo
+            }
+        }
+        return false; // Retorna falso si no encuentra el autoId en ninguno de los correos
     }
 
 }

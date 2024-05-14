@@ -109,7 +109,10 @@ async function obtenerDetalleDelContrato(contractId, token) {
               y: 553
             }
           });   
+
+          
         await page.check('input.PrivateSwitchBase-input[name="selectedSign"]');
+
         await page.getByRole('button', { name: 'Agregar' }).click();
         await page.getByRole('button', { name: 'Guardar' }).click();
         await expect(page.locator('div').filter({ hasText: /^Creando Trámite, por favor espere$/ })).toBeVisible();
@@ -133,7 +136,6 @@ async function obtenerDetalleDelContrato(contractId, token) {
 
     test('tiempo de espera', async ({ page }) => {
         const loginpage = new LoginPage(page);
-        const tramitesexpress = new TramitesExpressPage(page);
 
         await loginpage.goto();
         await page.waitForTimeout(20000)
@@ -145,13 +147,45 @@ async function obtenerDetalleDelContrato(contractId, token) {
         const tramitesexpress = new TramitesExpressPage(page);
 
         await loginpage.goto();
-   //     await page.waitForTimeout(20000)
+        await page.waitForTimeout(10000)
         await loginpage.checkComponents();
         await loginpage.loginUser();
-    //    await page.waitForSelector('div:has-text("¡Mejora tu experiencia de")', { state: 'visible' });
-    //    const { emailAddress: pagadorEmail, id: pagadorId } = 
-    const details = await tramitesexpress.VerificarFirmanteStatus();
-});
+
+       
+            // Obtener el último correo e ID
+    //        const { email, id: mailboxId } = await tramitesexpress.getLastMailboxInfo();
+        const { email, idfirmante: mailboxId } = await tramitesexpress.getMailboxInfobynumfirmante(1);
+            console.log('Mailbox ID:', mailboxId);
+            console.log('Email Address:', email);
+    
+            const details = await tramitesexpress.VerificarFirmanteStatus();
+            if (email && mailboxId) {
+                console.log('status details:', details);
+                
+                // Esperar por el último correo recibido
+                const latestEmail = await mailslurp.waitForLatestEmail(mailboxId, 30000, true);
+                if (latestEmail) {
+                    console.log('Último correo recibido:', latestEmail.subject); // Puedes cambiar a .body si necesitas verificar el contenido
+                } else {
+                    throw new Error('No se recibió ningún correo nuevo.');
+                }
+            } else {
+                throw new Error('Información necesaria para la verificación no disponible.');
+            }
+    });
+
+    // test('tiempo de espera', async ({ page }) => {
+    //     const loginpage = new LoginPage(page);
+
+    //     await loginpage.goto();
+    //     await page.waitForTimeout(20000)
+    // });
+
+
+
+
+
+
+
 
 });
-
