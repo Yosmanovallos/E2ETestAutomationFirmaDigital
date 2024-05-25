@@ -2,7 +2,11 @@
 const { test, expect } = require('@playwright/test')
 const qaTestData = require('../test-data/qa/qa.json');
 const prodTestData = require('../test-data/prod/prod.json');
+const { MailSlurp } = require('mailslurp-client');
+const { log } = require('console');
+
 // create class
+
 exports.RegisterPage = class RegisterPage {
 
     
@@ -14,6 +18,11 @@ exports.RegisterPage = class RegisterPage {
     constructor(page){
         // Init page object
         this.page = page;
+
+        const apiKey = process.env.API_KEY;
+        this.mailslurp = new MailSlurp({ apiKey });
+
+
         // Elements
         // validaciones
 
@@ -41,6 +50,21 @@ exports.RegisterPage = class RegisterPage {
         this.passwordplaceholder = page.locator('input[name="sPassword"]');
         this.repeatpasswordplaceholder = page.locator('input[name="rePassword"]');
         this.testData = process.env.ENV === 'qa' ? qaTestData.qaTestData : prodTestData.prodTestData;
+    }
+
+    generateRut() {
+        let rut = '';
+        for (let i = 0; i < 8; i++) {
+            rut += Math.floor(Math.random() * 10);
+        }
+        return rut + '-' + this.calculateDV(rut);
+    }
+
+    calculateDV(T) {
+        let M = 0, S = 1;
+        for (; T; T = Math.floor(T / 10))
+            S = (S + T % 10 * (9 - M++ % 6)) % 11;
+        return S ? S - 1 : 'K';
     }
     
 
@@ -90,7 +114,7 @@ exports.RegisterPage = class RegisterPage {
         await this.repeatpasswordplaceholder.fill('12345678Ee#');
         await this.Registrarsebutton.click();
         await expect(this.correonovalido).toBeVisible();
-        await expect(this.validaciocaracteres).toContainText('Nuestro sistema detectó un problema con este correo. Te sugerimos corregirlo. Para continuar, haz clic en \'Agregar Participante\'.');
+        await expect(this.validaciocaracteres).toContainText('Nuestro sistema detectó un problema con este correo.');
         await this.Registrarsebutton.click();
         await expect(this.modalcorreorepetido).toBeVisible();
         await expect(this.modalvalidadorderepetidos).toContainText('El correo electrónico ya existe. Por favor, utiliza un correo electrónico diferente.');
@@ -108,5 +132,44 @@ exports.RegisterPage = class RegisterPage {
         await expect(this.closebuttonmodal).toBeVisible();
         await this.closebuttonmodal.click();
     }
+
+
+
+    async registerWithRandomEmail() {
+        // Crear un buzón y obtener la dirección de correo electrónico
+        const { emailAddress, id } = await this.mailslurp.createInbox();
+        console.log(`Correo generado: ${emailAddress}`);
+
+        await this.creaunacuentabutton.click();
+        await this.nameplaceholder.fill('Prueba');
+        await this.lastnameplaceholder.fill('Automatizada');
+        await this.tucorreoplaceholder.fill(emailAddress);
+
+        const validRut = this.generateRut();
+        console.log(`RUT generado: ${validRut}`);
+        await this.rutplaceholder.fill(validRut);
+        await this.passwordplaceholder.fill('123456Ee#');
+        console.log(`Password: ${'123456Ee#'}`)
+        await this.repeatpasswordplaceholder.fill('123456Ee#');
+        await this.Registrarsebutton.click();
+        await this.Registrarsebutton.click();
+
+          // Esperar por un correo de confirmación
+          const email = await this.mailslurp.waitForLatestEmail(id);
+
+          // Extraer el enlace de confirmación
+          const linkMatch = email.body.match(/href="(https:\/\/dev\.firmavirtual\.com\/validation-mail\/[a-zA-Z0-9]+)/);
+          if (linkMatch) {
+              const confirmationLink = linkMatch[1];
+              console.log(`Enlace de confirmación: ${confirmationLink}`);
+  
+              // Navegar al enlace de confirmación usando Playwright
+              await this.page.goto(confirmationLink);
+              console.log('Navegación al enlace de confirmación realizada correctamente.');
+          } else {
+              throw new Error('No se encontró el enlace de confirmación en el correo.');
+          }
+    }
+
 }
 

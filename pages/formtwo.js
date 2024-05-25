@@ -2,7 +2,7 @@ const { test, expect } = require('@playwright/test');
 const qaTestData = require('../test-data/qa/qa.json');
 const prodTestData = require('../test-data/prod/prod.json');
 
-exports.FormPage = class FormPage {
+exports.FormPagetwo = class FormPagetwo {
     /**
      * Constructor de la página de formulario.
      * @param {import('@playwright/test').Page} page - Instancia de la página principal.
@@ -10,84 +10,69 @@ exports.FormPage = class FormPage {
     constructor(page) {
         this.page = page;
         this.comenzarButton = this.page.getByRole('button', { name: 'Comenzar' });
-    }
-
-    /**
-     * Preparar localizadores de elementos en la nueva página (popup).
-     * @param {import('@playwright/test').Page} page1 - Instancia de la página popup.
-     */
-    prepareLocators(page1) {
-
         // Locators form
 
-        this.tbv1 = page1.locator('div', { hasText: /^¿Qué tipo de trámite deseas hacer\?$/ });
-        this.tramiteButton = page1.getByPlaceholder('¿Qué trámite necesitas');
-        this.tramiteName = page1.getByPlaceholder('Ingresa el nombre de tramite');
-        this.tbv4 = page1.getByRole('heading', { name: '¿Qué tipo de trámite deseas' })
-        this.siguienteButton = page1.getByRole('button', { name: 'Siguiente' })
-        this.formpagesecurity = page1.getByText('Elegir trámite2Opciones firma3Participantes Nivel de seguridad de firma')
+        this.tbv1 = page.locator('div', { hasText: /^¿Qué tipo de trámite deseas hacer\?$/ });
+        this.tramiteButton = page.getByPlaceholder('¿Qué trámite necesitas');
+        this.tramiteName = page.getByPlaceholder('Ingresa el nombre de tramite');
+        this.tbv4 = page.getByRole('heading', { name: '¿Qué tipo de trámite deseas' });
+        this.siguienteButton = page.getByRole('button', { name: 'Siguiente' });
+        this.formpagesecurity = page.getByText('Elegir trámite2Opciones firma3Participantes Nivel de seguridad de firma');
 
         // lista de tramites
 
-        this.cartadecontraoferta = page1.getByRole('option', { name: 'Carta de contra oferta' })
-        this.cartaderenuncia = page1.getByRole('option', { name: 'Carta de renuncia' })
-        this.cartaoferta = page1.getByRole('option', { name: 'Carta oferta' })
-        this.certificaciondomicilio = page1.getByRole('option', { name: 'Certificacion domicilio' })
-        this.certificadodeestadocivil = page1.getByRole('option', { name: 'Certificado de estado civil' })
-        this.certificadolaboralconchileno = page1.getByRole('option', { name: 'Certificado laboral con chileno' })
-        this.certificadolaboralconextranjero = page1.getByRole('option', { name: 'Certificado laboral con extranjero' })
-        this.cesiondecontrato = page1.getByRole('option', { name: 'Cesion de contrato' })
-        this.comercial = page1.getByRole('option', { name: 'Comercial' })
-        this.contratodearriendo = page1.getByRole('option', { name: 'Contrato de arriendo', exact: true })
-        this.contratodetrabajo = page1.getByRole('option', { name: 'Contrato de trabajo' })
-        this.declaracionjurada = page1.getByRole('option', { name: 'Declaracion jurada' })
-        this.finiquitoempresarial = page1.getByRole('option', { name: 'Finiquito empresarial' })
-        this.legalizacioncopiadecedula = page1.getByRole('option', { name: 'Legalizacion copia de cedula' })
-        this.mandatodeadministracion = page1.getByRole('option', { name: 'Mandato de administracion' })
-        this.ofertalaboral = page1.getByRole('option', { name: 'Oferta laboral' })
-        this.ordendearriendo = page1.getByRole('option', { name: 'Orden de arriendo' })
-        this.ordendeventa = page1.getByRole('option', { name: 'Orden de venta' })
-        this.ordendevisita = page1.getByRole('option', { name: 'Orden de visita' })
-        this.permisodemudanza = page1.getByRole('option', { name: 'Permiso de mudanza' })
-        this.podersimple = page1.getByRole('option', { name: 'Poder simple' })
-        this.promesadecompraventa = page1.getByRole('option', { name: 'Promesa de compraventa', exact: true })
-        this.promesadecompraventadevehiculo = page1.getByRole('option', { name: 'Promesa de compraventa de' })
-        this.prorrogadepromesadecompraventa = page1.getByRole('option', { name: 'Prorroga de promesa de' })
-        this.resciliaciondecontratode = page1.getByRole('option', { name: 'Resciliacion de contrato de' })
-        this.resciliaciondepromesadearriendo = page1.getByRole('option', { name: 'Resciliacion de promesa de' })
-        this.salvoconducto = page1.getByRole('option', { name: 'Salvo conducto' })
-        this.usodedomicilio = page1.getByRole('option', { name: 'Uso de domicilio' })
+        this.cartadecontraoferta = page.getByRole('option', { name: 'Carta de contra oferta' });
+        this.cartaderenuncia = page.getByRole('option', { name: 'Carta de renuncia' });
+        this.cartaoferta = page.getByRole('option', { name: 'Carta oferta' });
+        this.certificaciondomicilio = page.getByRole('option', { name: 'Certificacion domicilio' });
+        this.certificadodeestadocivil = page.getByRole('option', { name: 'Certificado de estado civil' });
+        this.certificadolaboralconchileno = page.getByRole('option', { name: 'Certificado laboral con chileno' });
+        this.certificadolaboralconextranjero = page.getByRole('option', { name: 'Certificado laboral con extranjero' });
+        this.cesiondecontrato = page.getByRole('option', { name: 'Cesion de contrato' });
+        this.comercial = page.getByRole('option', { name: 'Comercial' });
+        this.contratodearriendo = page.getByRole('option', { name: 'Contrato de arriendo', exact: true });
+        this.contratodetrabajo = page.getByRole('option', { name: 'Contrato de trabajo' });
+        this.declaracionjurada = page.getByRole('option', { name: 'Declaracion jurada' });
+        this.finiquitoempresarial = page.getByRole('option', { name: 'Finiquito empresarial' });
+        this.legalizacioncopiadecedula = page.getByRole('option', { name: 'Legalizacion copia de cedula' });
+        this.mandatodeadministracion = page.getByRole('option', { name: 'Mandato de administracion' });
+        this.ofertalaboral = page.getByRole('option', { name: 'Oferta laboral' });
+        this.ordendearriendo = page.getByRole('option', { name: 'Orden de arriendo' });
+        this.ordendeventa = page.getByRole('option', { name: 'Orden de venta' });
+        this.ordendevisita = page.getByRole('option', { name: 'Orden de visita' });
+        this.permisodemudanza = page.getByRole('option', { name: 'Permiso de mudanza' });
+        this.podersimple = page.getByRole('option', { name: 'Poder simple' });
+        this.promesadecompraventa = page.getByRole('option', { name: 'Promesa de compraventa', exact: true });
+        this.promesadecompraventadevehiculo = page.getByRole('option', { name: 'Promesa de compraventa de' });
+        this.prorrogadepromesadecompraventa = page.getByRole('option', { name: 'Prorroga de promesa de' });
+        this.resciliaciondecontratode = page.getByRole('option', { name: 'Resciliacion de contrato de' });
+        this.resciliaciondepromesadearriendo = page.getByRole('option', { name: 'Resciliacion de promesa de' });
+        this.salvoconducto = page.getByRole('option', { name: 'Salvo conducto' });
+        this.usodedomicilio = page.getByRole('option', { name: 'Uso de domicilio' });
         this.testData = process.env.ENV === 'qa' ? qaTestData.qaTestData : prodTestData.prodTestData;
 
         // security form
 
-        this.muysegurosecurity = page1.getByText('Muy SeguroAutorización');
-        this.segurosecurity = page1.getByText('SeguroSugeridoCertificación');
-        this.autorizacionnotarialdefirmas = page1.locator('div').filter({ hasText: /^Autorización notarial de firmas \(ANF\)$/ });
-        this.protocolizacionnotarial = page1.locator('div').filter({ hasText: /^Protocolización notarial$/ });
-        this.sugeridocertificacionnotarial = page1.getByText('SugeridoCertificación notarial');
-        this.firmaelectrónicasimple = page1.locator('div').filter({ hasText: /^Firma electrónica simple \(FES\)$/ });
-        this.volverbutton = page1.getByRole('button', { name: 'Volver' });
+        this.muysegurosecurity = page.getByText('Muy SeguroAutorización');
+        this.segurosecurity = page.getByText('SeguroSugeridoCertificación');
+        this.autorizacionnotarialdefirmas = page.locator('div.signature:has-text("Autorización notarial de firmas")');
+        this.protocolizacionnotarial = page.locator('div.signature:has-text("Protocolización notarial")');
+        this.sugeridocertificacionnotarial = page.locator('div.signature:has-text("Certificación notarial")');
+        this.firmaelectronicasimple = page.locator('div.signature:has-text("Firma electrónica simple")');
+        this.volverbutton = page.getByRole('button', { name: 'Volver' });
         
         // modales de precios de seguridad
 
-        this.unfirmanteAutorizaciónnotarialdefirmas = page1.getByText('$24990 (valor un firmante) *$');
-        this.unfirmanteProtocolizaciónnotarial = page1.getByText('$20490 (valor un firmante) *$');
-        this.unfirmanteCertificaciónnotarial = page1.getByText('$14490 (valor un firmante) *$');
-        this.unfirmanteFirmaelectrónicasimple = page1.getByText('$4490 (valor un firmante) *$');
-        this.closebuttonmodal = page1.locator('.closeButtom > .MuiSvgIcon-root > path');
-        this.seleccionarbuttonmodal = page1.getByRole('button', { name: 'Seleccionar' });
+        this.unfirmanteAutorizaciónnotarialdefirmas = page.getByText('$24990 (valor un firmante) *$');
+        this.unfirmanteProtocolizaciónnotarial = page.getByText('$20490 (valor un firmante) *$');
+        this.unfirmanteCertificaciónnotarial = page.getByText('$14490 (valor un firmante) *$');
+        this.unfirmanteFirmaelectrónicasimple = page.getByText('$4490 (valor un firmante) *$');
+        this.closebuttonmodal = page.locator('.closeButtom > .MuiSvgIcon-root > path');
+        this.seleccionarbuttonmodal = page.getByRole('button', { name: 'Seleccionar' });
     }
 
-
-
-
-    // open the form create  tramite
-    async openForm() {
-        const page1Promise = this.page.waitForEvent('popup');
-        await this.comenzarButton.click();
-        const page1 = await page1Promise;
-        this.prepareLocators(page1);
+    async SiguienteButtonNavegation() {
+        await this.siguienteButton.click();
     }
 
     async verifyAndClickSecurityOptions() {
@@ -119,11 +104,8 @@ exports.FormPage = class FormPage {
         await expect(this.seleccionarbuttonmodal).toBeVisible();
         await this.closebuttonmodal.click();
     }
-
-    /**
-     * Método para verificar la visibilidad de los elementos en la página popup(Formulario).
-     */
-    async formpage1Verify() {
+    
+    async formpageVerify() {
         await expect(this.tbv1).toBeVisible();
         await expect(this.tramiteButton).toBeVisible();
         await expect(this.tramiteName).toBeVisible();
@@ -134,6 +116,35 @@ exports.FormPage = class FormPage {
         await this.verifyAndClickSecurityOptions();
     }
 
+    async AutorizacionNotarial() {
+        await expect(this.formpagesecurity).toBeVisible();
+        await this.autorizacionnotarialdefirmas.click();
+        await this.seleccionarbuttonmodal.click();
+        await this.siguienteButton.click();
+    }
+
+    async ProtocolizacionNotarial() {
+        await expect(this.formpagesecurity).toBeVisible();
+        await this.protocolizacionnotarial.click();
+        await this.seleccionarbuttonmodal.click();
+        await this.siguienteButton.click();
+    }
+
+    async SugeridoCertificacionNotarial() {
+        await expect(this.formpagesecurity).toBeVisible();
+        await this.sugeridocertificacionnotarial.click();
+        await this.seleccionarbuttonmodal.click();
+        await this.siguienteButton.click();
+    }
+
+    async FirmaElectronicaSimple() {
+        await expect(this.formpagesecurity).toBeVisible();
+        await this.firmaelectronicasimple.click();
+        await this.seleccionarbuttonmodal.click();
+        await this.siguienteButton.click();
+    }
+
+
     async cartadeContraOferta() {
         await this.tramiteButton.click();
         await expect(this.cartadecontraoferta).toBeVisible();
@@ -142,8 +153,6 @@ exports.FormPage = class FormPage {
         await this.tramiteName.fill(this.testData.TramiteName);
         await expect(this.siguienteButton).toBeVisible();
         await this.siguienteButton.click();
-        await expect(this.formpagesecurity).toBeVisible();
-        await this.verifyAndClickSecurityOptions();
     }
 
     async cartadeRenuncia() {
@@ -152,11 +161,8 @@ exports.FormPage = class FormPage {
         await this.cartaderenuncia.click();
         await this.tramiteName.click();
         await this.tramiteName.fill(this.testData.TramiteName);
-        await this.page.waitForTimeout(3000) 
         await expect(this.siguienteButton).toBeVisible();
         await this.siguienteButton.click();
-        await expect(this.formpagesecurity).toBeVisible();
-        await this.verifyAndClickSecurityOptions();
     }
 
     async CartaOferta() {
@@ -165,12 +171,9 @@ exports.FormPage = class FormPage {
         await this.cartaoferta.click();
         await this.tramiteName.click();
         await this.tramiteName.fill(this.testData.TramiteName);
-        await this.page.waitForTimeout(3000) 
         await expect(this.siguienteButton).toBeVisible();
         await this.siguienteButton.click();
-        await expect(this.formpagesecurity).toBeVisible();
     }
-
 
     async CertificacionDomicilio() {
         await this.tramiteButton.click();
@@ -180,7 +183,6 @@ exports.FormPage = class FormPage {
         await this.tramiteName.fill(this.testData.TramiteName);
         await expect(this.siguienteButton).toBeVisible();
         await this.siguienteButton.click();
-        await expect(this.formpagesecurity).toBeVisible();
     }
 
     async CertificadodeEstadoCivil() {
@@ -191,9 +193,7 @@ exports.FormPage = class FormPage {
         await this.tramiteName.fill(this.testData.TramiteName);
         await expect(this.siguienteButton).toBeVisible();
         await this.siguienteButton.click();
-        await expect(this.formpagesecurity).toBeVisible();
     }
-
 
     async CertificadoLaboralconChileno() {
         await this.tramiteButton.click();
@@ -203,7 +203,6 @@ exports.FormPage = class FormPage {
         await this.tramiteName.fill(this.testData.TramiteName);
         await expect(this.siguienteButton).toBeVisible();
         await this.siguienteButton.click();
-        await expect(this.formpagesecurity).toBeVisible();
     }
 
     async CertificadoLaboralconExtranjero() {
@@ -214,7 +213,6 @@ exports.FormPage = class FormPage {
         await this.tramiteName.fill(this.testData.TramiteName);
         await expect(this.siguienteButton).toBeVisible();
         await this.siguienteButton.click();
-        await expect(this.formpagesecurity).toBeVisible();
     }
 
     async CesiondeContrato() {
@@ -225,7 +223,6 @@ exports.FormPage = class FormPage {
         await this.tramiteName.fill(this.testData.TramiteName);
         await expect(this.siguienteButton).toBeVisible();
         await this.siguienteButton.click();
-        await expect(this.formpagesecurity).toBeVisible();
     }
 
     async Comercial() {
@@ -236,7 +233,6 @@ exports.FormPage = class FormPage {
         await this.tramiteName.fill(this.testData.TramiteName);
         await expect(this.siguienteButton).toBeVisible();
         await this.siguienteButton.click();
-        await expect(this.formpagesecurity).toBeVisible();
     }
 
     async ContratodeArriendo() {
@@ -247,7 +243,6 @@ exports.FormPage = class FormPage {
         await this.tramiteName.fill(this.testData.TramiteName);
         await expect(this.siguienteButton).toBeVisible();
         await this.siguienteButton.click();
-        await expect(this.formpagesecurity).toBeVisible();
     }
 
     async ContratodeTrabajo() {
@@ -258,7 +253,6 @@ exports.FormPage = class FormPage {
         await this.tramiteName.fill(this.testData.TramiteName);
         await expect(this.siguienteButton).toBeVisible();
         await this.siguienteButton.click();
-        await expect(this.formpagesecurity).toBeVisible();
     }
 
     async DeclaracionJurada() {
@@ -269,9 +263,7 @@ exports.FormPage = class FormPage {
         await this.tramiteName.fill(this.testData.TramiteName);
         await expect(this.siguienteButton).toBeVisible();
         await this.siguienteButton.click();
-        await expect(this.formpagesecurity).toBeVisible();
     }
-
 
     async FiniquitoEmpresarial() {
         await this.tramiteButton.click();
@@ -281,9 +273,7 @@ exports.FormPage = class FormPage {
         await this.tramiteName.fill(this.testData.TramiteName);
         await expect(this.siguienteButton).toBeVisible();
         await this.siguienteButton.click();
-        await expect(this.formpagesecurity).toBeVisible();
     }
-
 
     async LegalizacionCopiadeCedula() {
         await this.tramiteButton.click();
@@ -293,7 +283,6 @@ exports.FormPage = class FormPage {
         await this.tramiteName.fill(this.testData.TramiteName);
         await expect(this.siguienteButton).toBeVisible();
         await this.siguienteButton.click();
-        await expect(this.formpagesecurity).toBeVisible();
     }
 
     async MandatodeAdministracion() {
@@ -304,7 +293,6 @@ exports.FormPage = class FormPage {
         await this.tramiteName.fill(this.testData.TramiteName);
         await expect(this.siguienteButton).toBeVisible();
         await this.siguienteButton.click();
-        await expect(this.formpagesecurity).toBeVisible();
     }
 
     async OfertaLaboral() {
@@ -315,7 +303,6 @@ exports.FormPage = class FormPage {
         await this.tramiteName.fill(this.testData.TramiteName);
         await expect(this.siguienteButton).toBeVisible();
         await this.siguienteButton.click();
-        await expect(this.formpagesecurity).toBeVisible();
     }
 
     async OrdendeArriendo() {
@@ -326,7 +313,6 @@ exports.FormPage = class FormPage {
         await this.tramiteName.fill(this.testData.TramiteName);
         await expect(this.siguienteButton).toBeVisible();
         await this.siguienteButton.click();
-        await expect(this.formpagesecurity).toBeVisible();
     }
 
     async OrdendeVenta() {
@@ -337,7 +323,6 @@ exports.FormPage = class FormPage {
         await this.tramiteName.fill(this.testData.TramiteName);
         await expect(this.siguienteButton).toBeVisible();
         await this.siguienteButton.click();
-        await expect(this.formpagesecurity).toBeVisible();
     }
 
     async OrdendeVisita() {
@@ -348,7 +333,6 @@ exports.FormPage = class FormPage {
         await this.tramiteName.fill(this.testData.TramiteName);
         await expect(this.siguienteButton).toBeVisible();
         await this.siguienteButton.click();
-        await expect(this.formpagesecurity).toBeVisible();
     }
 
     async PermisodeMudanza() {
@@ -359,7 +343,6 @@ exports.FormPage = class FormPage {
         await this.tramiteName.fill(this.testData.TramiteName);
         await expect(this.siguienteButton).toBeVisible();
         await this.siguienteButton.click();
-        await expect(this.formpagesecurity).toBeVisible();
     }
 
     async PoderSimple() {
@@ -370,7 +353,6 @@ exports.FormPage = class FormPage {
         await this.tramiteName.fill(this.testData.TramiteName);
         await expect(this.siguienteButton).toBeVisible();
         await this.siguienteButton.click();
-        await expect(this.formpagesecurity).toBeVisible();
     }
 
     async PromesadeCompraventa() {
@@ -381,7 +363,6 @@ exports.FormPage = class FormPage {
         await this.tramiteName.fill(this.testData.TramiteName);
         await expect(this.siguienteButton).toBeVisible();
         await this.siguienteButton.click();
-        await expect(this.formpagesecurity).toBeVisible();
     }
 
     async PromesadeCompraventadeVehiculo() {
@@ -392,7 +373,6 @@ exports.FormPage = class FormPage {
         await this.tramiteName.fill(this.testData.TramiteName);
         await expect(this.siguienteButton).toBeVisible();
         await this.siguienteButton.click();
-        await expect(this.formpagesecurity).toBeVisible();
     }
 
     async ProrrogadePromesadeCompraventa() {
@@ -403,7 +383,6 @@ exports.FormPage = class FormPage {
         await this.tramiteName.fill(this.testData.TramiteName);
         await expect(this.siguienteButton).toBeVisible();
         await this.siguienteButton.click();
-        await expect(this.formpagesecurity).toBeVisible();
     }
 
     async ResciliaciondeContratodeArriendo() {
@@ -414,7 +393,6 @@ exports.FormPage = class FormPage {
         await this.tramiteName.fill(this.testData.TramiteName);
         await expect(this.siguienteButton).toBeVisible();
         await this.siguienteButton.click();
-        await expect(this.formpagesecurity).toBeVisible();
     }
 
     async ResciliaciondePromesadeArriendo() {
@@ -425,7 +403,6 @@ exports.FormPage = class FormPage {
         await this.tramiteName.fill(this.testData.TramiteName);
         await expect(this.siguienteButton).toBeVisible();
         await this.siguienteButton.click();
-        await expect(this.formpagesecurity).toBeVisible();
     }
 
     async SalvoConducto() {
@@ -436,7 +413,6 @@ exports.FormPage = class FormPage {
         await this.tramiteName.fill(this.testData.TramiteName);
         await expect(this.siguienteButton).toBeVisible();
         await this.siguienteButton.click();
-        await expect(this.formpagesecurity).toBeVisible();
     }
 
     async UsodeDomicilio() {
@@ -447,8 +423,5 @@ exports.FormPage = class FormPage {
         await this.tramiteName.fill(this.testData.TramiteName);
         await expect(this.siguienteButton).toBeVisible();
         await this.siguienteButton.click();
-        await expect(this.formpagesecurity).toBeVisible();
     }
-
-    
 }

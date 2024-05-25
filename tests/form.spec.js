@@ -1,325 +1,2807 @@
 const { test, expect } = require('@playwright/test');
 const { LoginPage } = require('../pages/loginpage');
-const { FormPage } = require('../pages/formpage');
-const { FormTwoPage } = require('../pages/formtwopage');
+const { FormPagetwo } = require('../pages/formtwo');
+const {FormFunctions} = require('../pages/formfunctions');
+
 
 test('test de formulario', async ({ page }) => {
-    const formPage = new FormPage(page);
+    const formPagetwo = new FormPagetwo(page);
     const loginpage = new LoginPage(page);
-    
-    await loginpage.goto();
-    await loginpage.loginUser();
-    await page.waitForSelector('div:has-text("¡Mejora tu experiencia de")', { state: 'visible' });
-    await formPage.openForm();
-    await formPage.formpage1Verify();
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.formpageVerify();
 });
 
-test('test carta de Contra Oferta', async ({ page }) => {
-    const formPage = new FormPage(page);
-    const loginpage = new LoginPage(page);
+test.describe('test carta de Contra Oferta', () => {
 
-    await loginpage.goto();
-    await loginpage.loginUser();
-    await page.waitForSelector('div:has-text("¡Mejora tu experiencia de")', { state: 'visible' });
-    await formPage.openForm();
-    await formPage.cartadeContraOferta();
+    test.beforeEach(async ({ page }) => {
+        await page.context().clearCookies();
+        await page.context().clearPermissions();
+      });
+
+test('Autenticacion Notarial - todos los roles', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.cartadeContraOferta();
+    await formPagetwo.AutorizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formfunctions.AgregarPartipanteAporbadorForm();
+    await formfunctions.AgregarPartipanteCopiaForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
 });
 
-test('test carta de Renuncia', async ({ page }) => {
-    const formPage = new FormPage(page);
+test('Autenticacion Notarial - pagador y firmante', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
     const loginpage = new LoginPage(page);
-
-    await loginpage.goto();
-    await loginpage.loginUser();
-    await page.waitForSelector('div:has-text("¡Mejora tu experiencia de")', { state: 'visible' });
-    await formPage.openForm();
-    await formPage.cartadeRenuncia();
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.cartadeContraOferta();
+    await formPagetwo.AutorizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
 });
 
-test('test Carta Oferta', async ({ page }) => {
-    const formPage = new FormPage(page);
+test('Autenticacion Notarial - pagador y dos firmantes', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
     const loginpage = new LoginPage(page);
-
-    await loginpage.goto();
-    await loginpage.loginUser();
-    await page.waitForSelector('div:has-text("¡Mejora tu experiencia de")', { state: 'visible' });
-    await formPage.openForm();
-    await formPage.CartaOferta();
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.cartadeContraOferta();
+    await formPagetwo.AutorizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
 });
 
-test('test Certificacion Domicilio', async ({ page }) => {
-    const formPage = new FormPage(page);
+test('Autenticacion Notarial - pagador, aprobador y dos firmantes', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
     const loginpage = new LoginPage(page);
-
-    await loginpage.goto();
-    await loginpage.loginUser();
-    await page.waitForSelector('div:has-text("¡Mejora tu experiencia de")', { state: 'visible' });
-    await formPage.openForm();
-    await formPage.CertificacionDomicilio();
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.cartadeContraOferta();
+    await formPagetwo.AutorizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formfunctions.AgregarPartipanteAporbadorForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
 });
 
-test('test Certificado de Estado Civil', async ({ page }) => {
-    const formPage = new FormPage(page);
+test('Protocolizacion Notarial - pagador y firmante', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
     const loginpage = new LoginPage(page);
-
-    await loginpage.goto();
-    await loginpage.loginUser();
-    await page.waitForSelector('div:has-text("¡Mejora tu experiencia de")', { state: 'visible' });
-    await formPage.openForm();
-    await formPage.CertificadodeEstadoCivil();
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.cartadeContraOferta();
+    await formPagetwo.ProtocolizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
 });
 
-test('test Certificado Laboral con Chileno', async ({ page }) => {
-    const formPage = new FormPage(page);
+test('Sugerido Certificacion Notarial - pagador y firmante', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
     const loginpage = new LoginPage(page);
-
-    await loginpage.goto();
-    await loginpage.loginUser();
-    await page.waitForSelector('div:has-text("¡Mejora tu experiencia de")', { state: 'visible' });
-    await formPage.openForm();
-    await formPage.CertificadoLaboralconChileno();
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.cartadeContraOferta();
+    await formPagetwo.SugeridoCertificacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
 });
 
-test('test Certificado Laboral con Extranjero', async ({ page }) => {
-    const formPage = new FormPage(page);
+test('FirmaElectronicaSimple - pagador y firmante', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
     const loginpage = new LoginPage(page);
-
-    await loginpage.goto();
-    await loginpage.loginUser();
-    await page.waitForSelector('div:has-text("¡Mejora tu experiencia de")', { state: 'visible' });
-    await formPage.openForm();
-    await formPage.CertificadoLaboralconExtranjero();
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.cartadeContraOferta();
+    await formPagetwo.FirmaElectronicaSimple();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
 });
 
-test('test Cesion de Contrato', async ({ page }) => {
-    const formPage = new FormPage(page);
-    const loginpage = new LoginPage(page);
-
-    await loginpage.goto();
-    await loginpage.loginUser();
-    await page.waitForSelector('div:has-text("¡Mejora tu experiencia de")', { state: 'visible' });
-    await formPage.openForm();
-    await formPage.CesiondeContrato();
 });
 
-test('test Comercial', async ({ page }) => {
-    const formPage = new FormPage(page);
-    const loginpage = new LoginPage(page);
+test.describe('test carta de Renuncia', () => {
 
-    await loginpage.goto();
-    await loginpage.loginUser();
-    await page.waitForSelector('div:has-text("¡Mejora tu experiencia de")', { state: 'visible' });
-    await formPage.openForm();
-    await formPage.Comercial();
+    test.beforeEach(async ({ page }) => {
+        await page.context().clearCookies();
+        await page.context().clearPermissions();
+      });
+
+test('Autenticacion Notarial - todos los roles', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.cartadeRenuncia();
+    await formPagetwo.AutorizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formfunctions.AgregarPartipanteAporbadorForm();
+    await formfunctions.AgregarPartipanteCopiaForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
 });
 
-test('test Contrato de Arriendo', async ({ page }) => {
-    const formPage = new FormPage(page);
+test('Autenticacion Notarial - pagador y firmante', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
     const loginpage = new LoginPage(page);
-
-    await loginpage.goto();
-    await loginpage.loginUser();
-    await page.waitForSelector('div:has-text("¡Mejora tu experiencia de")', { state: 'visible' });
-    await formPage.openForm();
-    await formPage.ContratodeArriendo();
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.cartadeRenuncia();
+    await formPagetwo.AutorizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
 });
 
-test('test Contrato de Trabajo', async ({ page }) => {
-    const formPage = new FormPage(page);
+test('Autenticacion Notarial - pagador y dos firmantes', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
     const loginpage = new LoginPage(page);
-
-    await loginpage.goto();
-    await loginpage.loginUser();
-    await page.waitForSelector('div:has-text("¡Mejora tu experiencia de")', { state: 'visible' });
-    await formPage.openForm();
-    await formPage.ContratodeTrabajo();
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.cartadeRenuncia();
+    await formPagetwo.AutorizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
 });
 
-test('test Declaracion Jurada', async ({ page }) => {
-    const formPage = new FormPage(page);
+test('Autenticacion Notarial - pagador, aprobador y dos firmantes', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
     const loginpage = new LoginPage(page);
-
-    await loginpage.goto();
-    await loginpage.loginUser();
-    await page.waitForSelector('div:has-text("¡Mejora tu experiencia de")', { state: 'visible' });
-    await formPage.openForm();
-    await formPage.DeclaracionJurada();
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.cartadeRenuncia();
+    await formPagetwo.AutorizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formfunctions.AgregarPartipanteAporbadorForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
 });
 
-test('test Finiquito Empresarial', async ({ page }) => {
-    const formPage = new FormPage(page);
+test('Protocolizacion Notarial - pagador y firmante', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
     const loginpage = new LoginPage(page);
-
-    await loginpage.goto();
-    await loginpage.loginUser();
-    await page.waitForSelector('div:has-text("¡Mejora tu experiencia de")', { state: 'visible' });
-    await formPage.openForm();
-    await formPage.FiniquitoEmpresarial();
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.cartadeRenuncia();
+    await formPagetwo.ProtocolizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
 });
 
-test('test Legalizacion Copia de Cedula', async ({ page }) => {
-    const formPage = new FormPage(page);
+test('Sugerido Certificacion Notarial - pagador y firmante', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
     const loginpage = new LoginPage(page);
-
-    await loginpage.goto();
-    await loginpage.loginUser();
-    await page.waitForSelector('div:has-text("¡Mejora tu experiencia de")', { state: 'visible' });
-    await formPage.openForm();
-    await formPage.LegalizacionCopiadeCedula();
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.cartadeRenuncia();
+    await formPagetwo.SugeridoCertificacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
 });
 
-test('test Mandato de Administracion', async ({ page }) => {
-    const formPage = new FormPage(page);
+test('FirmaElectronicaSimple - pagador y firmante', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
     const loginpage = new LoginPage(page);
-
-    await loginpage.goto();
-    await loginpage.loginUser();
-    await page.waitForSelector('div:has-text("¡Mejora tu experiencia de")', { state: 'visible' });
-    await formPage.openForm();
-    await formPage.MandatodeAdministracion();
-});
-
-test('test Oferta Laboral', async ({ page }) => {
-    const formPage = new FormPage(page);
-    const loginpage = new LoginPage(page);
-
-    await loginpage.goto();
-    await loginpage.loginUser();
-    await page.waitForSelector('div:has-text("¡Mejora tu experiencia de")', { state: 'visible' });
-    await formPage.openForm();
-    await formPage.OfertaLaboral();
-});
-
-test('test Orden de Arriendo', async ({ page }) => {
-    const formPage = new FormPage(page);
-    const loginpage = new LoginPage(page);
-
-    await loginpage.goto();
-    await loginpage.loginUser();
-    await page.waitForSelector('div:has-text("¡Mejora tu experiencia de")', { state: 'visible' });
-    await formPage.openForm();
-    await formPage.OrdendeArriendo();
-});
-
-test('test Orden de Venta', async ({ page }) => {
-    const formPage = new FormPage(page);
-    const loginpage = new LoginPage(page);
-
-    await loginpage.goto();
-    await loginpage.loginUser();
-    await page.waitForSelector('div:has-text("¡Mejora tu experiencia de")', { state: 'visible' });
-    await formPage.openForm();
-    await formPage.OrdendeVenta();
-});
-
-test('test Orden de Visita', async ({ page }) => {
-    const formPage = new FormPage(page);
-    const loginpage = new LoginPage(page);
-
-    await loginpage.goto();
-    await loginpage.loginUser();
-    await page.waitForSelector('div:has-text("¡Mejora tu experiencia de")', { state: 'visible' });
-    await formPage.openForm();
-    await formPage.OrdendeVisita();
-});
-
-test('test Permiso de Mudanza', async ({ page }) => {
-    const formPage = new FormPage(page);
-    const loginpage = new LoginPage(page);
-
-    await loginpage.goto();
-    await loginpage.loginUser();
-    await page.waitForSelector('div:has-text("¡Mejora tu experiencia de")', { state: 'visible' });
-    await formPage.openForm();
-    await formPage.PermisodeMudanza();
-});
-
-test('test Poder Simple', async ({ page }) => {
-    const formPage = new FormPage(page);
-    const loginpage = new LoginPage(page);
-
-    await loginpage.goto();
-    await loginpage.loginUser();
-    await page.waitForSelector('div:has-text("¡Mejora tu experiencia de")', { state: 'visible' });
-    await formPage.openForm();
-    await formPage.PoderSimple();
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.cartadeRenuncia();
+    await formPagetwo.FirmaElectronicaSimple();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
 });
 
 
-test('test Promesa de Compraventa', async ({ page }) => {
-    const formPage = new FormPage(page);
-    const loginpage = new LoginPage(page);
-
-    await loginpage.goto();
-    await loginpage.loginUser();
-    await page.waitForSelector('div:has-text("¡Mejora tu experiencia de")', { state: 'visible' });
-    await formPage.openForm();
-    await formPage.PromesadeCompraventa();
 });
 
+test.describe('test Carta Oferta', () => {
 
-test('test Promesa de Compraventa de Vehiculo', async ({ page }) => {
-    const formPage = new FormPage(page);
+    test.beforeEach(async ({ page }) => {
+        await page.context().clearCookies();
+        await page.context().clearPermissions();
+      });
+
+test('Autenticacion Notarial - todos los roles', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
     const loginpage = new LoginPage(page);
-
-    await loginpage.goto();
-    await loginpage.loginUser();
-    await page.waitForSelector('div:has-text("¡Mejora tu experiencia de")', { state: 'visible' });
-    await formPage.openForm();
-    await formPage.PromesadeCompraventadeVehiculo();
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.CartaOferta();
+    await formPagetwo.AutorizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formfunctions.AgregarPartipanteAporbadorForm();
+    await formfunctions.AgregarPartipanteCopiaForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
 });
 
-test('test Prorroga de Promesa de Compraventa', async ({ page }) => {
-    const formPage = new FormPage(page);
+test('Autenticacion Notarial - pagador y firmante', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
     const loginpage = new LoginPage(page);
-
-    await loginpage.goto();
-    await loginpage.loginUser();
-    await page.waitForSelector('div:has-text("¡Mejora tu experiencia de")', { state: 'visible' });
-    await formPage.openForm();
-    await formPage.ProrrogadePromesadeCompraventa();
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.CartaOferta();
+    await formPagetwo.AutorizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
 });
 
-test('test Resciliacion de Contrato de Arriendo', async ({ page }) => {
-    const formPage = new FormPage(page);
+test('Autenticacion Notarial - pagador y dos firmantes', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
     const loginpage = new LoginPage(page);
-
-    await loginpage.goto();
-    await loginpage.loginUser();
-    await page.waitForSelector('div:has-text("¡Mejora tu experiencia de")', { state: 'visible' });
-    await formPage.openForm();
-    await formPage.ResciliaciondeContratodeArriendo();
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.CartaOferta();
+    await formPagetwo.AutorizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
 });
 
-test('test Resciliacion de Promesa de Arriendo', async ({ page }) => {
-    const formPage = new FormPage(page);
+test('Autenticacion Notarial - pagador, aprobador y dos firmantes', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
     const loginpage = new LoginPage(page);
-
-    await loginpage.goto();
-    await loginpage.loginUser();
-    await page.waitForSelector('div:has-text("¡Mejora tu experiencia de")', { state: 'visible' });
-    await formPage.openForm();
-    await formPage.ResciliaciondePromesadeArriendo();
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.CartaOferta();
+    await formPagetwo.AutorizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formfunctions.AgregarPartipanteAporbadorForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
 });
 
-test('test Salvo Conducto', async ({ page }) => {
-    const formPage = new FormPage(page);
+test('Protocolizacion Notarial - pagador y firmante', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
     const loginpage = new LoginPage(page);
-
-    await loginpage.goto();
-    await loginpage.loginUser();
-    await page.waitForSelector('div:has-text("¡Mejora tu experiencia de")', { state: 'visible' });
-    await formPage.openForm();
-    await formPage.SalvoConducto();
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.CartaOferta();
+    await formPagetwo.ProtocolizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
 });
 
-test('test Usode Domicilio', async ({ page }) => {
-    const formPage = new FormPage(page);
+test('Sugerido Certificacion Notarial - pagador y firmante', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
     const loginpage = new LoginPage(page);
-
-    await loginpage.goto();
-    await loginpage.loginUser();
-    await page.waitForSelector('div:has-text("¡Mejora tu experiencia de")', { state: 'visible' });
-    await formPage.openForm();
-    await formPage.UsodeDomicilio();
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.CartaOferta();
+    await formPagetwo.SugeridoCertificacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
 });
+
+test('FirmaElectronicaSimple - pagador y firmante', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.CartaOferta();
+    await formPagetwo.FirmaElectronicaSimple();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+});
+
+test.describe('test Certificacion Domicilio', () => {
+
+    test.beforeEach(async ({ page }) => {
+        await page.context().clearCookies();
+        await page.context().clearPermissions();
+      });
+
+test('Autenticacion Notarial - todos los roles', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.CertificacionDomicilio();
+    await formPagetwo.AutorizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formfunctions.AgregarPartipanteAporbadorForm();
+    await formfunctions.AgregarPartipanteCopiaForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+test('Autenticacion Notarial - pagador y firmante', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.CertificacionDomicilio();
+    await formPagetwo.AutorizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+test('Autenticacion Notarial - pagador y dos firmantes', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.CertificacionDomicilio();
+    await formPagetwo.AutorizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+test('Autenticacion Notarial - pagador, aprobador y dos firmantes', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.CertificacionDomicilio();
+    await formPagetwo.AutorizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formfunctions.AgregarPartipanteAporbadorForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+test('Protocolizacion Notarial - pagador y firmante', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.CertificacionDomicilio();
+    await formPagetwo.ProtocolizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+});
+
+test.describe('test Certificado de Estado Civil', () => {
+
+    test.beforeEach(async ({ page }) => {
+        await page.context().clearCookies();
+        await page.context().clearPermissions();
+      });
+
+test('Autenticacion Notarial - todos los roles', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.CertificadodeEstadoCivil();
+    await formPagetwo.AutorizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formfunctions.AgregarPartipanteAporbadorForm();
+    await formfunctions.AgregarPartipanteCopiaForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+test('Autenticacion Notarial - pagador y firmante', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.CertificadodeEstadoCivil();
+    await formPagetwo.AutorizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+test('Autenticacion Notarial - pagador y dos firmantes', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.CertificadodeEstadoCivil();
+    await formPagetwo.AutorizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+test('Autenticacion Notarial - pagador, aprobador y dos firmantes', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.CertificadodeEstadoCivil();
+    await formPagetwo.AutorizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formfunctions.AgregarPartipanteAporbadorForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+test('Protocolizacion Notarial - pagador y firmante', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.CertificadodeEstadoCivil();
+    await formPagetwo.ProtocolizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+test('Sugerido Certificacion Notarial - pagador y firmante', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.CertificadodeEstadoCivil();
+    await formPagetwo.SugeridoCertificacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+test('FirmaElectronicaSimple - pagador y firmante', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.CertificadodeEstadoCivil();
+    await formPagetwo.FirmaElectronicaSimple();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+});
+
+test.describe('test Certificado Laboral con Chileno', () => {
+
+    test.beforeEach(async ({ page }) => {
+        await page.context().clearCookies();
+        await page.context().clearPermissions();
+      });
+
+test('Autenticacion Notarial - todos los roles', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.CertificadoLaboralconChileno();
+    await formPagetwo.AutorizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formfunctions.AgregarPartipanteAporbadorForm();
+    await formfunctions.AgregarPartipanteCopiaForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+test('Autenticacion Notarial - pagador y firmante', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.CertificadoLaboralconChileno();
+    await formPagetwo.AutorizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+test('Autenticacion Notarial - pagador y dos firmantes', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.CertificadoLaboralconChileno();
+    await formPagetwo.AutorizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+test('Autenticacion Notarial - pagador, aprobador y dos firmantes', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.CertificadoLaboralconChileno();
+    await formPagetwo.AutorizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formfunctions.AgregarPartipanteAporbadorForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+test('Protocolizacion Notarial - pagador y firmante', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.CertificadoLaboralconChileno();
+    await formPagetwo.ProtocolizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+test('Sugerido Certificacion Notarial - pagador y firmante', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.CertificadoLaboralconChileno();
+    await formPagetwo.SugeridoCertificacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+test('FirmaElectronicaSimple - pagador y firmante', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.CertificadoLaboralconChileno();
+    await formPagetwo.FirmaElectronicaSimple();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+});
+
+test.describe('test Certificado Laboral con Extranjero', () => {
+
+    test.beforeEach(async ({ page }) => {
+        await page.context().clearCookies();
+        await page.context().clearPermissions();
+      });
+
+test('Autenticacion Notarial - todos los roles', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.CertificadoLaboralconExtranjero();
+    await formPagetwo.AutorizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formfunctions.AgregarPartipanteAporbadorForm();
+    await formfunctions.AgregarPartipanteCopiaForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+test('Autenticacion Notarial - pagador y firmante', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.CertificadoLaboralconExtranjero();
+    await formPagetwo.AutorizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+test('Autenticacion Notarial - pagador y dos firmantes', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.CertificadoLaboralconExtranjero();
+    await formPagetwo.AutorizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+test('Autenticacion Notarial - pagador, aprobador y dos firmantes', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.CertificadoLaboralconExtranjero();
+    await formPagetwo.AutorizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formfunctions.AgregarPartipanteAporbadorForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+test('Protocolizacion Notarial - pagador y firmante', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.CertificadoLaboralconExtranjero();
+    await formPagetwo.ProtocolizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+});
+
+test.describe('test Cesion de Contrato', () => {
+
+    test.beforeEach(async ({ page }) => {
+        await page.context().clearCookies();
+        await page.context().clearPermissions();
+      });
+
+test('Autenticacion Notarial - todos los roles', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.CesiondeContrato();
+    await formPagetwo.AutorizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formfunctions.AgregarPartipanteAporbadorForm();
+    await formfunctions.AgregarPartipanteCopiaForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+test('Autenticacion Notarial - pagador y firmante', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.CesiondeContrato();
+    await formPagetwo.AutorizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+test('Autenticacion Notarial - pagador y dos firmantes', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.CesiondeContrato();
+    await formPagetwo.AutorizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+test('Autenticacion Notarial - pagador, aprobador y dos firmantes', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.CesiondeContrato();
+    await formPagetwo.AutorizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formfunctions.AgregarPartipanteAporbadorForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+test('Protocolizacion Notarial - pagador y firmante', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.CesiondeContrato();
+    await formPagetwo.ProtocolizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+});
+
+test.describe('test Comercial', () => {
+
+    test.beforeEach(async ({ page }) => {
+        await page.context().clearCookies();
+        await page.context().clearPermissions();
+      });
+
+test('Autenticacion Notarial - todos los roles', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.Comercial();
+    await formPagetwo.AutorizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formfunctions.AgregarPartipanteAporbadorForm();
+    await formfunctions.AgregarPartipanteCopiaForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+test('Autenticacion Notarial - pagador y firmante', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.Comercial();
+    await formPagetwo.AutorizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+test('Autenticacion Notarial - pagador y dos firmantes', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.Comercial();
+    await formPagetwo.AutorizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+test('Autenticacion Notarial - pagador, aprobador y dos firmantes', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.Comercial();
+    await formPagetwo.AutorizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formfunctions.AgregarPartipanteAporbadorForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+test('Protocolizacion Notarial - pagador y firmante', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.Comercial();
+    await formPagetwo.ProtocolizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+test('Sugerido Certificacion Notarial - pagador y firmante', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.Comercial();
+    await formPagetwo.SugeridoCertificacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+test('FirmaElectronicaSimple - pagador y firmante', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.Comercial();
+    await formPagetwo.FirmaElectronicaSimple();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+});
+
+test.describe('test Contrato de Arriendo', () => {
+
+    test.beforeEach(async ({ page }) => {
+        await page.context().clearCookies();
+        await page.context().clearPermissions();
+      });
+
+test('Autenticacion Notarial - todos los roles', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.ContratodeArriendo();
+    await formPagetwo.AutorizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formfunctions.AgregarPartipanteAporbadorForm();
+    await formfunctions.AgregarPartipanteCopiaForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+test('Autenticacion Notarial - pagador y firmante', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.ContratodeArriendo();
+    await formPagetwo.AutorizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+test('Autenticacion Notarial - pagador y dos firmantes', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.ContratodeArriendo();
+    await formPagetwo.AutorizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+test('Autenticacion Notarial - pagador, aprobador y dos firmantes', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.ContratodeArriendo();
+    await formPagetwo.AutorizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formfunctions.AgregarPartipanteAporbadorForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+test('Protocolizacion Notarial - pagador y firmante', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.ContratodeArriendo();
+    await formPagetwo.ProtocolizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+test('Sugerido Certificacion Notarial - pagador y firmante', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.ContratodeArriendo();
+    await formPagetwo.SugeridoCertificacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+test('FirmaElectronicaSimple - pagador y firmante', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.ContratodeArriendo();
+    await formPagetwo.FirmaElectronicaSimple();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+});
+
+test.describe('test Contrato de Trabajo', () => {
+
+    test.beforeEach(async ({ page }) => {
+        await page.context().clearCookies();
+        await page.context().clearPermissions();
+      });
+
+test('Autenticacion Notarial - todos los roles', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.ContratodeTrabajo();
+    await formPagetwo.AutorizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formfunctions.AgregarPartipanteAporbadorForm();
+    await formfunctions.AgregarPartipanteCopiaForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+test('Autenticacion Notarial - pagador y firmante', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.ContratodeTrabajo();
+    await formPagetwo.AutorizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+test('Autenticacion Notarial - pagador y dos firmantes', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.ContratodeTrabajo();
+    await formPagetwo.AutorizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+test('Autenticacion Notarial - pagador, aprobador y dos firmantes', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.ContratodeTrabajo();
+    await formPagetwo.AutorizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formfunctions.AgregarPartipanteAporbadorForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+test('Protocolizacion Notarial - pagador y firmante', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.ContratodeTrabajo();
+    await formPagetwo.ProtocolizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+test('Sugerido Certificacion Notarial - pagador y firmante', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.ContratodeTrabajo();
+    await formPagetwo.SugeridoCertificacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+test('FirmaElectronicaSimple - pagador y firmante', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.ContratodeTrabajo();
+    await formPagetwo.FirmaElectronicaSimple();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+});
+
+test.describe('test Declaracion Jurada', () => {
+
+    test.beforeEach(async ({ page }) => {
+        await page.context().clearCookies();
+        await page.context().clearPermissions();
+      });
+
+test('Autenticacion Notarial - todos los roles', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.DeclaracionJurada();
+    await formPagetwo.AutorizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formfunctions.AgregarPartipanteAporbadorForm();
+    await formfunctions.AgregarPartipanteCopiaForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+test('Autenticacion Notarial - pagador y firmante', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.DeclaracionJurada();
+    await formPagetwo.AutorizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+test('Autenticacion Notarial - pagador y dos firmantes', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.DeclaracionJurada();
+    await formPagetwo.AutorizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+test('Autenticacion Notarial - pagador, aprobador y dos firmantes', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.DeclaracionJurada();
+    await formPagetwo.AutorizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formfunctions.AgregarPartipanteAporbadorForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+test('Protocolizacion Notarial - pagador y firmante', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.DeclaracionJurada();
+    await formPagetwo.ProtocolizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+});
+
+test.describe('test Finiquito Empresarial', () => {
+
+    test.beforeEach(async ({ page }) => {
+        await page.context().clearCookies();
+        await page.context().clearPermissions();
+      });
+
+test('Autenticacion Notarial - todos los roles', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.FiniquitoEmpresarial();
+    await formPagetwo.AutorizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formfunctions.AgregarPartipanteAporbadorForm();
+    await formfunctions.AgregarPartipanteCopiaForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+test('Autenticacion Notarial - pagador y firmante', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.FiniquitoEmpresarial();
+    await formPagetwo.AutorizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+test('Autenticacion Notarial - pagador y dos firmantes', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.FiniquitoEmpresarial();
+    await formPagetwo.AutorizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+test('Autenticacion Notarial - pagador, aprobador y dos firmantes', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.FiniquitoEmpresarial();
+    await formPagetwo.AutorizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formfunctions.AgregarPartipanteAporbadorForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+test('Protocolizacion Notarial - pagador y firmante', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.FiniquitoEmpresarial();
+    await formPagetwo.ProtocolizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+});
+
+test.describe('test Legalizacion Copia de Cedula', () => {
+
+    test.beforeEach(async ({ page }) => {
+        await page.context().clearCookies();
+        await page.context().clearPermissions();
+      });
+
+test('Autenticacion Notarial - todos los roles', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.LegalizacionCopiadeCedula();
+    await formPagetwo.AutorizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formfunctions.AgregarPartipanteAporbadorForm();
+    await formfunctions.AgregarPartipanteCopiaForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+test('Autenticacion Notarial - pagador y firmante', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.LegalizacionCopiadeCedula();
+    await formPagetwo.AutorizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+test('Autenticacion Notarial - pagador y dos firmantes', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.LegalizacionCopiadeCedula();
+    await formPagetwo.AutorizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+test('Autenticacion Notarial - pagador, aprobador y dos firmantes', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.LegalizacionCopiadeCedula();
+    await formPagetwo.AutorizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formfunctions.AgregarPartipanteAporbadorForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+test('Protocolizacion Notarial - pagador y firmante', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.LegalizacionCopiadeCedula();
+    await formPagetwo.ProtocolizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+});
+
+test.describe('test Mandato de Administracion', () => {
+
+    test.beforeEach(async ({ page }) => {
+        await page.context().clearCookies();
+        await page.context().clearPermissions();
+      });
+
+test('Autenticacion Notarial - todos los roles', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.MandatodeAdministracion();
+    await formPagetwo.AutorizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formfunctions.AgregarPartipanteAporbadorForm();
+    await formfunctions.AgregarPartipanteCopiaForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+test('Autenticacion Notarial - pagador y firmante', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.MandatodeAdministracion();
+    await formPagetwo.AutorizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+test('Autenticacion Notarial - pagador y dos firmantes', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.MandatodeAdministracion();
+    await formPagetwo.AutorizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+test('Autenticacion Notarial - pagador, aprobador y dos firmantes', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.MandatodeAdministracion();
+    await formPagetwo.AutorizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formfunctions.AgregarPartipanteAporbadorForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+test('Protocolizacion Notarial - pagador y firmante', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.MandatodeAdministracion();
+    await formPagetwo.ProtocolizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+test('Sugerido Certificacion Notarial - pagador y firmante', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.MandatodeAdministracion();
+    await formPagetwo.SugeridoCertificacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+test('FirmaElectronicaSimple - pagador y firmante', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.MandatodeAdministracion();
+    await formPagetwo.FirmaElectronicaSimple();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+});
+
+test.describe('test Oferta Laboral', () => {
+
+    test.beforeEach(async ({ page }) => {
+        await page.context().clearCookies();
+        await page.context().clearPermissions();
+      });
+
+test('Autenticacion Notarial - todos los roles', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.OfertaLaboral();
+    await formPagetwo.AutorizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formfunctions.AgregarPartipanteAporbadorForm();
+    await formfunctions.AgregarPartipanteCopiaForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+test('Autenticacion Notarial - pagador y firmante', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.OfertaLaboral();
+    await formPagetwo.AutorizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+test('Autenticacion Notarial - pagador y dos firmantes', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.OfertaLaboral();
+    await formPagetwo.AutorizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+test('Autenticacion Notarial - pagador, aprobador y dos firmantes', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.OfertaLaboral();
+    await formPagetwo.AutorizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formfunctions.AgregarPartipanteAporbadorForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+test('Protocolizacion Notarial - pagador y firmante', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.OfertaLaboral();
+    await formPagetwo.ProtocolizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+test('Sugerido Certificacion Notarial - pagador y firmante', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.OfertaLaboral();
+    await formPagetwo.SugeridoCertificacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+test('FirmaElectronicaSimple - pagador y firmante', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.OfertaLaboral();
+    await formPagetwo.FirmaElectronicaSimple();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+});
+
+test.describe('test Orden de Arriendo', () => {
+
+    test.beforeEach(async ({ page }) => {
+        await page.context().clearCookies();
+        await page.context().clearPermissions();
+      });
+
+test('Autenticacion Notarial - todos los roles', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.OrdendeArriendo();
+    await formPagetwo.AutorizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formfunctions.AgregarPartipanteAporbadorForm();
+    await formfunctions.AgregarPartipanteCopiaForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+test('Autenticacion Notarial - pagador y firmante', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.OrdendeArriendo();
+    await formPagetwo.AutorizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+test('Autenticacion Notarial - pagador y dos firmantes', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.OrdendeArriendo();
+    await formPagetwo.AutorizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+test('Autenticacion Notarial - pagador, aprobador y dos firmantes', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.OrdendeArriendo();
+    await formPagetwo.AutorizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formfunctions.AgregarPartipanteAporbadorForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+test('Protocolizacion Notarial - pagador y firmante', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.OrdendeArriendo();
+    await formPagetwo.ProtocolizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+test('Sugerido Certificacion Notarial - pagador y firmante', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.OrdendeArriendo();
+    await formPagetwo.SugeridoCertificacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+test('FirmaElectronicaSimple - pagador y firmante', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.OrdendeArriendo();
+    await formPagetwo.FirmaElectronicaSimple();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+});
+
+test.describe('test Orden de Venta', () => {
+
+    test.beforeEach(async ({ page }) => {
+        await page.context().clearCookies();
+        await page.context().clearPermissions();
+      });
+
+test('Autenticacion Notarial - todos los roles', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.OrdendeVenta();
+    await formPagetwo.AutorizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formfunctions.AgregarPartipanteAporbadorForm();
+    await formfunctions.AgregarPartipanteCopiaForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+test('Autenticacion Notarial - pagador y firmante', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.OrdendeVenta();
+    await formPagetwo.AutorizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+test('Autenticacion Notarial - pagador y dos firmantes', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.OrdendeVenta();
+    await formPagetwo.AutorizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+test('Autenticacion Notarial - pagador, aprobador y dos firmantes', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.OrdendeVenta();
+    await formPagetwo.AutorizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formfunctions.AgregarPartipanteAporbadorForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+test('Protocolizacion Notarial - pagador y firmante', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.OrdendeVenta();
+    await formPagetwo.ProtocolizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+test('Sugerido Certificacion Notarial - pagador y firmante', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.OrdendeVenta();
+    await formPagetwo.SugeridoCertificacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+test('FirmaElectronicaSimple - pagador y firmante', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.OrdendeVenta();
+    await formPagetwo.FirmaElectronicaSimple();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+});
+
+test.describe('test Orden de Visita', () => {
+
+    test.beforeEach(async ({ page }) => {
+        await page.context().clearCookies();
+        await page.context().clearPermissions();
+      });
+
+test('Autenticacion Notarial - todos los roles', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.OrdendeVisita();
+    await formPagetwo.AutorizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formfunctions.AgregarPartipanteAporbadorForm();
+    await formfunctions.AgregarPartipanteCopiaForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+test('Autenticacion Notarial - pagador y firmante', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.OrdendeVisita();
+    await formPagetwo.AutorizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+test('Autenticacion Notarial - pagador y dos firmantes', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.OrdendeVisita();
+    await formPagetwo.AutorizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+test('Autenticacion Notarial - pagador, aprobador y dos firmantes', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.OrdendeVisita();
+    await formPagetwo.AutorizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formfunctions.AgregarPartipanteAporbadorForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+test('Protocolizacion Notarial - pagador y firmante', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.OrdendeVisita();
+    await formPagetwo.ProtocolizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+test('Sugerido Certificacion Notarial - pagador y firmante', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.OrdendeVisita();
+    await formPagetwo.SugeridoCertificacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+test('FirmaElectronicaSimple - pagador y firmante', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.OrdendeVisita();
+    await formPagetwo.FirmaElectronicaSimple();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+});
+
+test.describe('test Permiso de Mudanza', () => {
+
+    test.beforeEach(async ({ page }) => {
+        await page.context().clearCookies();
+        await page.context().clearPermissions();
+      });
+
+test('Autenticacion Notarial - todos los roles', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.PermisodeMudanza();
+    await formPagetwo.AutorizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formfunctions.AgregarPartipanteAporbadorForm();
+    await formfunctions.AgregarPartipanteCopiaForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+test('Autenticacion Notarial - pagador y firmante', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.PermisodeMudanza();
+    await formPagetwo.AutorizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+test('Autenticacion Notarial - pagador y dos firmantes', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.PermisodeMudanza();
+    await formPagetwo.AutorizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+test('Autenticacion Notarial - pagador, aprobador y dos firmantes', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.PermisodeMudanza();
+    await formPagetwo.AutorizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formfunctions.AgregarPartipanteAporbadorForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+test('Protocolizacion Notarial - pagador y firmante', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.PermisodeMudanza();
+    await formPagetwo.ProtocolizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+});
+
+test.describe('test Poder Simple', () => {
+
+    test.beforeEach(async ({ page }) => {
+        await page.context().clearCookies();
+        await page.context().clearPermissions();
+      });
+
+test('Autenticacion Notarial - todos los roles', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.PoderSimple();
+    await formPagetwo.AutorizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formfunctions.AgregarPartipanteAporbadorForm();
+    await formfunctions.AgregarPartipanteCopiaForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+test('Autenticacion Notarial - pagador y firmante', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.PoderSimple();
+    await formPagetwo.AutorizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+test('Autenticacion Notarial - pagador y dos firmantes', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.PoderSimple();
+    await formPagetwo.AutorizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+test('Autenticacion Notarial - pagador, aprobador y dos firmantes', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.PoderSimple();
+    await formPagetwo.AutorizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formfunctions.AgregarPartipanteAporbadorForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+test('Protocolizacion Notarial - pagador y firmante', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.PoderSimple();
+    await formPagetwo.ProtocolizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+test('Sugerido Certificacion Notarial - pagador y firmante', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.PoderSimple();
+    await formPagetwo.SugeridoCertificacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+test('FirmaElectronicaSimple - pagador y firmante', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.PoderSimple();
+    await formPagetwo.FirmaElectronicaSimple();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+});
+
+test.describe('test Promesa de Compraventa', () => {
+
+    test.beforeEach(async ({ page }) => {
+        await page.context().clearCookies();
+        await page.context().clearPermissions();
+      });
+
+test('Autenticacion Notarial - todos los roles', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.PromesadeCompraventa();
+    await formPagetwo.AutorizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formfunctions.AgregarPartipanteAporbadorForm();
+    await formfunctions.AgregarPartipanteCopiaForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+test('Autenticacion Notarial - pagador y firmante', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.PromesadeCompraventa();
+    await formPagetwo.AutorizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+test('Autenticacion Notarial - pagador y dos firmantes', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.PromesadeCompraventa();
+    await formPagetwo.AutorizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+test('Autenticacion Notarial - pagador, aprobador y dos firmantes', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.PromesadeCompraventa();
+    await formPagetwo.AutorizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formfunctions.AgregarPartipanteAporbadorForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+test('Protocolizacion Notarial - pagador y firmante', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.PromesadeCompraventa();
+    await formPagetwo.ProtocolizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+test('Sugerido Certificacion Notarial - pagador y firmante', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.PromesadeCompraventa();
+    await formPagetwo.SugeridoCertificacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+});
+
+test.describe('test Promesa de Compraventa de Vehiculo', () => {
+
+    test.beforeEach(async ({ page }) => {
+        await page.context().clearCookies();
+        await page.context().clearPermissions();
+      });
+
+test('Autenticacion Notarial - todos los roles', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.PromesadeCompraventadeVehiculo();
+    await formPagetwo.AutorizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formfunctions.AgregarPartipanteAporbadorForm();
+    await formfunctions.AgregarPartipanteCopiaForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+test('Autenticacion Notarial - pagador y firmante', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.PromesadeCompraventadeVehiculo();
+    await formPagetwo.AutorizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+test('Autenticacion Notarial - pagador y dos firmantes', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.PromesadeCompraventadeVehiculo();
+    await formPagetwo.AutorizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+test('Autenticacion Notarial - pagador, aprobador y dos firmantes', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.PromesadeCompraventadeVehiculo();
+    await formPagetwo.AutorizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formfunctions.AgregarPartipanteAporbadorForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+test('Protocolizacion Notarial - pagador y firmante', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.PromesadeCompraventadeVehiculo();
+    await formPagetwo.ProtocolizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+});
+
+test.describe('test Prorroga de Promesa de Compraventa', () => {
+
+    test.beforeEach(async ({ page }) => {
+        await page.context().clearCookies();
+        await page.context().clearPermissions();
+      });
+
+test('Autenticacion Notarial - todos los roles', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.ProrrogadePromesadeCompraventa();
+    await formPagetwo.AutorizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formfunctions.AgregarPartipanteAporbadorForm();
+    await formfunctions.AgregarPartipanteCopiaForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+test('Autenticacion Notarial - pagador y firmante', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.ProrrogadePromesadeCompraventa();
+    await formPagetwo.AutorizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+test('Autenticacion Notarial - pagador y dos firmantes', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.ProrrogadePromesadeCompraventa();
+    await formPagetwo.AutorizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+test('Autenticacion Notarial - pagador, aprobador y dos firmantes', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.ProrrogadePromesadeCompraventa();
+    await formPagetwo.AutorizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formfunctions.AgregarPartipanteAporbadorForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+test('Protocolizacion Notarial - pagador y firmante', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.ProrrogadePromesadeCompraventa();
+    await formPagetwo.ProtocolizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+test('Sugerido Certificacion Notarial - pagador y firmante', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.ProrrogadePromesadeCompraventa();
+    await formPagetwo.SugeridoCertificacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+});
+
+test.describe('test Resciliacion de Contrato de Arriendo', () => {
+
+    test.beforeEach(async ({ page }) => {
+        await page.context().clearCookies();
+        await page.context().clearPermissions();
+      });
+
+test('Autenticacion Notarial - todos los roles', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.ResciliaciondeContratodeArriendo();
+    await formPagetwo.AutorizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formfunctions.AgregarPartipanteAporbadorForm();
+    await formfunctions.AgregarPartipanteCopiaForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+test('Autenticacion Notarial - pagador y firmante', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.ResciliaciondeContratodeArriendo();
+    await formPagetwo.AutorizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+test('Autenticacion Notarial - pagador y dos firmantes', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.ResciliaciondeContratodeArriendo();
+    await formPagetwo.AutorizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+test('Autenticacion Notarial - pagador, aprobador y dos firmantes', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.ResciliaciondeContratodeArriendo();
+    await formPagetwo.AutorizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formfunctions.AgregarPartipanteAporbadorForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+test('Protocolizacion Notarial - pagador y firmante', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.ResciliaciondeContratodeArriendo();
+    await formPagetwo.ProtocolizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+test('Sugerido Certificacion Notarial - pagador y firmante', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.ResciliaciondeContratodeArriendo();
+    await formPagetwo.SugeridoCertificacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+test('FirmaElectronicaSimple - pagador y firmante', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.ResciliaciondeContratodeArriendo();
+    await formPagetwo.FirmaElectronicaSimple();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+});
+
+test.describe('test Resciliacion de Promesa de Arriendo', () => {
+
+    test.beforeEach(async ({ page }) => {
+        await page.context().clearCookies();
+        await page.context().clearPermissions();
+      });
+
+test('Autenticacion Notarial - todos los roles', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.ResciliaciondePromesadeArriendo();
+    await formPagetwo.AutorizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formfunctions.AgregarPartipanteAporbadorForm();
+    await formfunctions.AgregarPartipanteCopiaForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+test('Autenticacion Notarial - pagador y firmante', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.ResciliaciondePromesadeArriendo();
+    await formPagetwo.AutorizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+test('Autenticacion Notarial - pagador y dos firmantes', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.ResciliaciondePromesadeArriendo();
+    await formPagetwo.AutorizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+test('Autenticacion Notarial - pagador, aprobador y dos firmantes', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.ResciliaciondePromesadeArriendo();
+    await formPagetwo.AutorizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formfunctions.AgregarPartipanteAporbadorForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+test('Protocolizacion Notarial - pagador y firmante', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.ResciliaciondePromesadeArriendo();
+    await formPagetwo.ProtocolizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+});
+
+test.describe('test Salvo Conducto', () => {
+
+    test.beforeEach(async ({ page }) => {
+        await page.context().clearCookies();
+        await page.context().clearPermissions();
+      });
+
+test('Autenticacion Notarial - todos los roles', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.SalvoConducto();
+    await formPagetwo.AutorizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formfunctions.AgregarPartipanteAporbadorForm();
+    await formfunctions.AgregarPartipanteCopiaForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+test('Autenticacion Notarial - pagador y firmante', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.SalvoConducto();
+    await formPagetwo.AutorizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+test('Autenticacion Notarial - pagador y dos firmantes', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.SalvoConducto();
+    await formPagetwo.AutorizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+test('Autenticacion Notarial - pagador, aprobador y dos firmantes', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.SalvoConducto();
+    await formPagetwo.AutorizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formfunctions.AgregarPartipanteAporbadorForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+test('Protocolizacion Notarial - pagador y firmante', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.SalvoConducto();
+    await formPagetwo.ProtocolizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+});
+
+test.describe('test Uso de Domicilio', () => {
+
+    test.beforeEach(async ({ page }) => {
+        await page.context().clearCookies();
+        await page.context().clearPermissions();
+      });
+
+test('Autenticacion Notarial - todos los roles', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.UsodeDomicilio();
+    await formPagetwo.AutorizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formfunctions.AgregarPartipanteAporbadorForm();
+    await formfunctions.AgregarPartipanteCopiaForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+test('Autenticacion Notarial - pagador y firmante', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.UsodeDomicilio();
+    await formPagetwo.AutorizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+test('Autenticacion Notarial - pagador y dos firmantes', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.UsodeDomicilio();
+    await formPagetwo.AutorizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+test('Autenticacion Notarial - pagador, aprobador y dos firmantes', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.UsodeDomicilio();
+    await formPagetwo.AutorizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formfunctions.AgregarPartipanteAporbadorForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+
+test('Protocolizacion Notarial - pagador y firmante', async ({ page }) => {
+    const formPagetwo = new FormPagetwo(page);
+    const loginpage = new LoginPage(page);
+    const formfunctions = new FormFunctions(page);
+    await loginpage.gotoform();
+    await loginpage.loginUseForm();
+    await formPagetwo.UsodeDomicilio();
+    await formPagetwo.ProtocolizacionNotarial();
+    await formfunctions.Agregarpartipantepagadorform();
+    await formfunctions.AgregarPartipanteFirmanteForm();
+    await formPagetwo.SiguienteButtonNavegation();
+    await formfunctions.subirArchivoYAñadirFirmas();
+});
+});
+

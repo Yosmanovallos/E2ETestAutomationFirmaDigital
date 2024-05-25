@@ -2,24 +2,27 @@ const { test, expect } = require('@playwright/test');
 const { LoginPage } = require('../pages/loginpage');
 
 
-    test('login_steps', async ({ page }) => {
+    test('login steps', async ({ page }) => {
         const loginpage = new LoginPage(page);
         await loginpage.goto();
-        await loginpage.checkComponents(); // Esperar que se complete este método
-
-        // Realizar el login utilizando los datos del ambiente correcto.
-        await loginpage.loginUser(); // Los datos se manejan internamente en la clase
-        await page.waitForSelector('div:has-text("¡Mejora tu experiencia de")', { state: 'visible' });
+        await loginpage.checkComponents();
+        await loginpage.loginUser();
     });
 
-    test('loginFail_steps', async ({ page }) => {
+    test('login Fail', async ({ page }) => {
         const loginpage = new LoginPage(page);
         await loginpage.goto();
-        await loginpage.checkComponents(); // Esperar que se complete este método
-
-        // Realizar el login utilizando los datos del ambiente correcto.
-        await loginpage.loginFail(); // Los datos se manejan internamente en la clase
+        await loginpage.checkComponents();
+        await loginpage.loginFail();
         await page.getByText('Ha ocurrido un errorPor favor', { state: 'visible' });
     });
+
+    test('login validations', async ({ page }) => {
+        const loginpage = new LoginPage(page);
+        await loginpage.goto();
+        await loginpage.checkComponents();
+        await loginpage.LoginValidations();
+    });
+    
 
     

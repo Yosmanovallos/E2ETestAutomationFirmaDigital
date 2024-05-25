@@ -340,7 +340,7 @@ async databasecreateverify(emailAddress, id, numfirmante) {
         return { emailAddress, id };
     }
     
-    async Agregarparticipantefirmante() {
+    async Agregarparticipantefirmante(num) {
 
         const { emailAddress, id } = await mailslurp.createInbox();
 
@@ -368,8 +368,7 @@ async databasecreateverify(emailAddress, id, numfirmante) {
         await this.agregarparticipantebutton.click();
         await this.agregarparticipantebutton.click();
         await this.page.waitForTimeout(2000)
-        await this.databasecreateverify(emailAddress, id, 1);
-     //   await this.databasecreateverify(emailAddress, id);
+        await this.databasecreateverify(emailAddress, id, num);
         return { emailAddress, id };
     }
 

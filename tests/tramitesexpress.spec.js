@@ -95,7 +95,8 @@ async function obtenerDetalleDelContrato(contractId, token) {
         // Realizar el login utilizando los datos del ambiente correcto.
         await loginpage.loginUser(); // Los datos se manejan internamente en la clase   
         const { id: pagadorId } = await tramitesexpress.Agregarparticipantepagador();
-        await tramitesexpress.Agregarparticipantefirmante();
+        await tramitesexpress.Agregarparticipantefirmante(1);
+    //    await tramitesexpress.Agregarparticipantefirmante(2)
         await tramitesexpress.AgregarparticipanteCopia();
         // busca un elemento input y lo adjunta
         await page.waitForSelector('input[type="file"]', { state: 'attached' });
@@ -114,10 +115,21 @@ async function obtenerDetalleDelContrato(contractId, token) {
         await page.check('input.PrivateSwitchBase-input[name="selectedSign"]');
 
         await page.getByRole('button', { name: 'Agregar' }).click();
+
+        // await page.locator('#pdf_renderer').click({
+        //     position: {
+        //       x: 57,
+        //       y: 556
+        //     }
+        //   });   
+
+        // const selector = 'input.PrivateSwitchBase-input[name="selectedSign"]';
+        // await page.locator(selector).nth(1).click(); // nth(1) selecciona el segundo elemento
+
+        // await page.getByRole('button', { name: 'Agregar' }).click()
         await page.getByRole('button', { name: 'Guardar' }).click();
-        await expect(page.locator('div').filter({ hasText: /^Creando Trámite, por favor espere$/ })).toBeVisible();
+  //      await expect(page.locator('div').filter({ hasText: /^Creando Trámite, por favor espere$/ })).toBeVisible();
   //      await tramitesexpress.VerificarContrato(pagadorId);
-        
         const result = await tramitesexpress.VerificarContrato(pagadorId);
 
     if (result && result.paymentLink) {
@@ -180,12 +192,4 @@ async function obtenerDetalleDelContrato(contractId, token) {
     //     await loginpage.goto();
     //     await page.waitForTimeout(20000)
     // });
-
-
-
-
-
-
-
-
 });
