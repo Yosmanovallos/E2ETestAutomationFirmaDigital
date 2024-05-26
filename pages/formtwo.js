@@ -104,7 +104,7 @@ exports.FormPagetwo = class FormPagetwo {
         await expect(this.seleccionarbuttonmodal).toBeVisible();
         await this.closebuttonmodal.click();
     }
-    
+
     async formpageVerify() {
         await expect(this.tbv1).toBeVisible();
         await expect(this.tramiteButton).toBeVisible();
@@ -143,7 +143,6 @@ exports.FormPagetwo = class FormPagetwo {
         await this.seleccionarbuttonmodal.click();
         await this.siguienteButton.click();
     }
-
 
     async cartadeContraOferta() {
         await this.tramiteButton.click();

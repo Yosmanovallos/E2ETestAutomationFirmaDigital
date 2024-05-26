@@ -1,11 +1,13 @@
 // Inlcude playwright module
-const { test, expect } = require('@playwright/test')
+const { expect } = require('@playwright/test')
 const qaTestData = require('../test-data/qa/qa.json');
 const prodTestData = require('../test-data/prod/prod.json');
 const { MailSlurp } = require('mailslurp-client');
-const { log } = require('console');
 
 // create class
+
+const apiKey = process.env.API_KEY;
+const mailslurp = new MailSlurp({ apiKey });
 
 exports.RegisterPage = class RegisterPage {
 
@@ -19,8 +21,7 @@ exports.RegisterPage = class RegisterPage {
         // Init page object
         this.page = page;
 
-        const apiKey = process.env.API_KEY;
-        this.mailslurp = new MailSlurp({ apiKey });
+        this.mailslurp = new MailSlurp({ apiKey: process.env.API_KEY });
 
 
         // Elements

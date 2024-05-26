@@ -51,8 +51,6 @@ exports.FormFunctions = class FormFunctions {
         return '' + number;  // Retorna el número con el código de país y todo pegado
     }
 
-
-
     async Agregarpartipantepagadorform() {
 
         const { emailAddress, id } = await mailslurp.createInbox();
