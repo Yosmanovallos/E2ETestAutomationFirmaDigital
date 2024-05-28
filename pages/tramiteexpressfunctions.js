@@ -10,13 +10,13 @@ const mailslurp = new MailSlurp({ apiKey });
 
 const predefinedEmails = {
     firmante: [
-        { email: 'de208aca-8a46-4c72-9d99-1c74d932ef77@mailslurp.net', id: 'de208aca-8a46-4c72-9d99-1c74d932ef77' }
+        { email: '4991921a-32aa-4524-a12c-83151909d4d8@mailslurp.net', id: '4991921a-32aa-4524-a12c-83151909d4d8' }
     ],
     pagador: [
-        { email: 'b58e0732-936c-44ee-b71e-459e150f7ca8@mailslurp.net', id: 'b58e0732-936c-44ee-b71e-459e150f7ca8' }
+        { email: 'c98ec2db-71fd-48d0-bdb7-eee94cb348ba@mailslurp.net', id: 'c98ec2db-71fd-48d0-bdb7-eee94cb348ba' }
     ],
     copia: [
-        { email: 'baa5341f-4e95-41a9-8374-6e6605f7aa98@mailslurp.net', id: 'baa5341f-4e95-41a9-8374-6e6605f7aa98' }
+        { email: '4d808ded-1e9e-41bc-82d1-54ece1d84b12@mailslurp.net', id: '4d808ded-1e9e-41bc-82d1-54ece1d84b12' }
     ]
 };
 
@@ -265,6 +265,41 @@ exports.TramitesExpressFunctions = class TramitesExpressFunctions {
 
         return { email, id };
     }
+
+    async Agregarparticipantepagadortwo() {
+        const { email, id } = predefinedEmails.pagador[0];
+        console.log(`Usando correo predefinido: ${email}, ID del buzón: ${id}`);
+        
+        await this.quetramitenecesitas.click();
+        await this.ordendearriendooption.click();
+        await this.certificaciontext.check();
+        await this.agregarparticipantebutton.click();
+        await this.nombrecompletoplaceholder.click();
+        await this.nombrecompletoplaceholder.fill('Pagador Automatizado');
+        await this.rutleabel.check();
+
+        const validRutPartipante = this.generateRut();
+        console.log(`RUT generado: ${validRutPartipante}`);
+
+        await this.rutdocument.click();
+        await this.rutdocument.fill(validRutPartipante);
+        await this.correoelectronicoplaceholder.click();
+        await this.correoelectronicoplaceholder.fill(email);
+
+        const mobileNumber = this.generateChileanMobileNumber();
+        console.log(`Número móvil generado: ${mobileNumber}`);
+
+        await this.whatsAppnumberplaceholder.click();
+        await this.whatsAppnumberplaceholder.fill(mobileNumber);
+
+        await this.rolpagador.click();
+        await this.cienporcientocheck.check();
+        await this.agregarparticipantebutton.click();
+        await this.agregarparticipantebutton.click();
+        await this.page.waitForTimeout(2000);
+
+        return { email, id };
+    }
     
     async Agregarparticipantefirmante() {
         const { email, id } = predefinedEmails.firmante[0];
@@ -395,6 +430,51 @@ exports.TramitesExpressFunctions = class TramitesExpressFunctions {
         return { paymentLink };
     }
 
+    async VerificarContratotwo(pagadorId) {
+        await this.OpenTramiteExpress();
+        await this.OpenGestiondeDocumentos();
+        await this.page.waitForSelector('.MuiButtonBase-root.MuiIconButton-root.MuiIconButton-sizeSmall.css-1j7qk7u', { state: 'visible' });
+
+        await this.page.locator('.MuiButtonBase-root.MuiIconButton-root.MuiIconButton-sizeSmall.css-1j7qk7u').first().click();
+
+        const bearerToken = await this.realizarLogin();
+        if (!bearerToken) {
+            console.log('Login fallido, token Bearer no recibido.');
+            return;
+        }
+        console.log('Login exitoso, token Bearer recibido.');
+
+        const contractId = await this.extraerIdDelContrato(this.page);
+        if (!contractId) {
+            console.log("No se pudo extraer el ID del contrato.");
+            return;
+        }
+        console.log(`ID del contrato extraído: ${contractId}`);
+
+        const detallesDelContrato = await this.obtenerDetalleDelContrato(contractId, bearerToken);
+        let paymentLink;
+        if (detallesDelContrato && detallesDelContrato.message && detallesDelContrato.message.firmantes) {
+            console.log('Detalles del contrato:', JSON.stringify(detallesDelContrato, null, 2));
+            detallesDelContrato.message.firmantes.forEach(firmante => {
+                if (parseFloat(firmante.portion) > 0 && firmante.token_payment) {
+                    console.log(`Validación exitosa para el rol: ${firmante.full_name}`);
+                    if (firmante.full_name === "Pagador Automatizado") {
+                        paymentLink = `https://dev.firmavirtual.com/api/v2/webpay/cl/express/${firmante.token_payment}/${contractId}`;
+                        console.log(`Enlace de pago para ${firmante.full_name}: ${paymentLink}`);
+                    }
+                } else {
+                    console.error(`Falla en la validación para el rol: ${firmante.full_name}, Portion: ${firmante.portion}, Token Payment: ${firmante.token_payment}`);
+                }
+            });
+        } else {
+            console.log('Error al obtener detalles del contrato o no hay firmantes disponibles.');
+        }
+        return { paymentLink };
+    }
+
+
+
+
     async SubirDocumento() {
         // Busca un elemento input y lo adjunta
         await this.page.waitForSelector('input[type="file"]', { state: 'attached' });
@@ -459,7 +539,6 @@ exports.TramitesExpressFunctions = class TramitesExpressFunctions {
         }
     }
 
-
     async VerificarFirmanteStatus() {
         // Esperar a que el primer botón que coincida con el selector sea visible
         await this.page.waitForSelector('.MuiButtonBase-root.MuiIconButton-root.MuiIconButton-sizeSmall.css-1j7qk7u', { state: 'visible' });
@@ -501,5 +580,32 @@ exports.TramitesExpressFunctions = class TramitesExpressFunctions {
         }
     }
 
+    async verificarCorreoPorRol(role, expectedContent) {
+        const emailData = predefinedEmails[role][0];  // Asumiendo que sólo hay un email por rol en predefinedEmails
+        const { email, id } = emailData;
+        console.log(`Verificando correos para ${role} con email: ${email}, ID del buzón: ${id}`);
+        
+        try {
+            const latestEmail = await this.mailslurp.waitForLatestEmail(id, 60000, true);  // Aumentar el tiempo de espera
+            if (latestEmail && latestEmail.body.includes(expectedContent)) {
+                console.log(`El correo para ${role} contiene el contenido esperado.`);
+            } else {
+                throw new Error(`El correo para ${role} no contiene el contenido esperado.`);
+            }
+        } catch (error) {
+            console.error(`Error al verificar el correo para ${role}: ${error.message}`);
+            throw error;  // Lanza el error para que el test falle si no se recibe el correo esperado
+        }
+    }
+
+    async verificarCorreosLlegados() {
+        const firmanteContent = `<td align="justify" valign="top" style="line-height: 20px;color:#3b3f44;font-family:arial,helvetica,sans-serif;font-size:15px;word-break:break-word;line-height:custom;padding-bottom:15px;padding-top:15px;text-align:justify">`;
+        const copiaContent = `<h1 style="margin: 0;color: #1f2d3d;font-family: arial,helvetica,sans-serif;font-size: 36px;word-break: break-word;">`;
+        const pagadorContent = `<h1 style="margin:0;color:#1f2d3d;font-family:arial,helvetica,sans-serif;font-size:36px;word-break:break-word">`;
+
+        await this.verificarCorreoPorRol('firmante', firmanteContent);
+        await this.verificarCorreoPorRol('copia', copiaContent);
+        await this.verificarCorreoPorRol('pagador', pagadorContent);
+    }
 
 }

@@ -147,9 +147,9 @@ const mailslurp = new MailSlurp({ apiKey });
         expect(emails.copia.length).toBe(5);
     });
 
-    test.describe('agregar todos los roles', () => {
+    test.describe('Tramite express - Orden de arriendo', () => {
 
-        test('Verificar Pagador', async ({ page }) => {
+        test('Tramites express sin aprovacion - Todos los participantes', async ({ page }) => {
             const loginpage = new LoginPage(page);
             const tramitesexpressfunctions = new TramitesExpressFunctions(page);    
             await loginpage.goto();
@@ -161,6 +161,87 @@ const mailslurp = new MailSlurp({ apiKey });
             await tramitesexpressfunctions.SubirDocumento();
             await tramitesexpressfunctions.FirmarDocumento();
             const result = await tramitesexpressfunctions.VerificarContrato(pagadorId);
+            if (result && result.paymentLink) {
+                const paymentCheckResult = await tramitesexpressfunctions.verificarCorreoConPago(result.paymentLink);
+                if (paymentCheckResult === 'found') {
+                    console.log('Test passed: El enlace de pago fue encontrado en el correo.');
+                    await page.goto(result.paymentLink);
+                    await tramitesexpressfunctions.PagoAutomatizado();
+                    await loginpage.goto();
+                    await tramitesexpressfunctions.OpenTramiteExpress();
+                    await tramitesexpressfunctions.OpenGestiondeDocumentos();
+                    await tramitesexpressfunctions.VerificarFirmante();
+                }
+            }
+        });
+
+        test('Tramites Express Protocolizacion notarial - Todos los participantes', async ({ page }) => {
+            const loginpage = new LoginPage(page);
+            const tramitesexpressfunctions = new TramitesExpressFunctions(page);    
+            await loginpage.goto();
+            await loginpage.checkComponents();
+            await loginpage.loginUser();
+            await page.locator('#mui-10').click();
+            const { id: pagadorId } = await tramitesexpressfunctions.Agregarparticipantepagadortwo();
+            await tramitesexpressfunctions.Agregarparticipantefirmante();
+            await tramitesexpressfunctions.AgregarparticipanteCopia();
+            await tramitesexpressfunctions.SubirDocumento();
+            await tramitesexpressfunctions.FirmarDocumento();
+            const result = await tramitesexpressfunctions.VerificarContratotwo(pagadorId);
+            if (result && result.paymentLink) {
+                const paymentCheckResult = await tramitesexpressfunctions.verificarCorreoConPago(result.paymentLink);
+                if (paymentCheckResult === 'found') {
+                    console.log('Test passed: El enlace de pago fue encontrado en el correo.');
+                    await page.goto(result.paymentLink);
+                    await tramitesexpressfunctions.PagoAutomatizado();
+                    await loginpage.goto();
+                    await tramitesexpressfunctions.OpenTramiteExpress();
+                    await tramitesexpressfunctions.OpenGestiondeDocumentos();
+                    await tramitesexpressfunctions.VerificarFirmante();
+                }
+            }
+        });
+
+        test('Tramites Express Certificacion notarial - Todos los participantes', async ({ page }) => {
+            const loginpage = new LoginPage(page);
+            const tramitesexpressfunctions = new TramitesExpressFunctions(page);    
+            await loginpage.goto();
+            await loginpage.checkComponents();
+            await loginpage.loginUser();
+            await page.locator('#mui-11').click();
+            const { id: pagadorId } = await tramitesexpressfunctions.Agregarparticipantepagadortwo();
+            await tramitesexpressfunctions.Agregarparticipantefirmante();
+            await tramitesexpressfunctions.AgregarparticipanteCopia();
+            await tramitesexpressfunctions.SubirDocumento();
+            await tramitesexpressfunctions.FirmarDocumento();
+            const result = await tramitesexpressfunctions.VerificarContratotwo(pagadorId);
+            if (result && result.paymentLink) {
+                const paymentCheckResult = await tramitesexpressfunctions.verificarCorreoConPago(result.paymentLink);
+                if (paymentCheckResult === 'found') {
+                    console.log('Test passed: El enlace de pago fue encontrado en el correo.');
+                    await page.goto(result.paymentLink);
+                    await tramitesexpressfunctions.PagoAutomatizado();
+                    await loginpage.goto();
+                    await tramitesexpressfunctions.OpenTramiteExpress();
+                    await tramitesexpressfunctions.OpenGestiondeDocumentos();
+                    await tramitesexpressfunctions.VerificarFirmante();
+                }
+            }
+        });
+
+        test('Tramites Express Buena Seguridad - Todos los participantes', async ({ page }) => {
+            const loginpage = new LoginPage(page);
+            const tramitesexpressfunctions = new TramitesExpressFunctions(page);    
+            await loginpage.goto();
+            await loginpage.checkComponents();
+            await loginpage.loginUser();
+            await page.locator('#mui-12').click();
+            const { id: pagadorId } = await tramitesexpressfunctions.Agregarparticipantepagadortwo();
+            await tramitesexpressfunctions.Agregarparticipantefirmante();
+            await tramitesexpressfunctions.AgregarparticipanteCopia();
+            await tramitesexpressfunctions.SubirDocumento();
+            await tramitesexpressfunctions.FirmarDocumento();
+            const result = await tramitesexpressfunctions.VerificarContratotwo(pagadorId);
             if (result && result.paymentLink) {
                 const paymentCheckResult = await tramitesexpressfunctions.verificarCorreoConPago(result.paymentLink);
                 if (paymentCheckResult === 'found') {

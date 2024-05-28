@@ -100,4 +100,9 @@ exports.LoginPage = class LoginPage {
         await this.usernameTextBox.fill('1');
         await expect(this.correovalido).toBeVisible();
     }
+
+    async AprobacionAltaSeguridad() {
+        await this.seguridadprotocolizacion.click();
+    }
+
 }    
